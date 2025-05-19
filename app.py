@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, Response
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from modules.uuid_generator import generate_uuid, generate_bulk_uuids, generate_custom_uuid, decode_uuid
 from modules.qr_generator import generate_qr_code
 from modules.hash_generator import generate_hash
 from modules.api_handler import api_generate_uuid
+from modules.sitemap_generator import generate_sitemap
 from config import Config
 import os
 import datetime
@@ -48,6 +49,24 @@ def decoder():
     return render_template('decoder.html',
                           title="UUID Decoder - " + Config.SITE_TITLE,
                           description="Decode existing UUIDs to understand their version, variant, and structure.")
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html',
+                          title="Terms and Conditions - " + Config.SITE_TITLE,
+                          description="Terms and conditions for using the UUID Generator service.")
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html',
+                          title="Privacy Policy - " + Config.SITE_TITLE,
+                          description="Privacy policy explaining how we handle your data when using our UUID Generator service.")
+
+@app.route('/cookies')
+def cookies():
+    return render_template('cookies.html',
+                          title="Cookie Policy - " + Config.SITE_TITLE,
+                          description="Our cookie policy explaining how we use cookies and similar technologies.")
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -125,6 +144,16 @@ def developer():
                           title="Developer Corner - UUID Implementation - " + Config.SITE_TITLE,
                           description="Learn how to implement UUID generation in different programming languages with code examples and best practices.",
                           task={'title': 'Titre par défaut'})
+
+@app.route('/robots.txt')
+def robots():
+    return send_file('static/robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """Generate a dynamic sitemap.xml"""
+    sitemap_xml = generate_sitemap(app)
+    return Response(sitemap_xml, mimetype='application/xml')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))

@@ -89,11 +89,78 @@
     <footer>
         <div class="container">
             <p>© <span id="current-year">2024</span> UUID Generator. Easily create UUIDs, GUIDs and QR codes.</p>
+            <div class="footer-links">
+                <a href="{{ url_for('terms') }}">Terms & Conditions</a>
+                <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+                <a href="{{ url_for('cookies') }}">Cookie Policy</a>
+                <a href="#" id="footer-cookie-settings">Cookie Settings</a>
+            </div>
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" class="cookie-consent hidden">
+        <div class="cookie-text">
+            <p>We use cookies to enhance your experience on our website. By continuing to use our site, you consent to our use of cookies. To learn more, please read our <a href="{{ url_for('cookies') }}">Cookie Policy</a>.</p>
+        </div>
+        <div class="cookie-buttons">
+            <button id="cookie-settings" class="cookie-btn cookie-btn-settings">Cookie Settings</button>
+            <button id="accept-all-cookies" class="cookie-btn cookie-btn-accept">Accept All</button>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookie-modal" class="cookie-modal">
+        <div class="cookie-modal-content">
+            <div class="cookie-modal-header">
+                <h2>Cookie Preferences</h2>
+                <button id="close-cookie-modal" class="cookie-modal-close">×</button>
+            </div>
+            <p>Manage your cookie preferences. Essential cookies cannot be disabled as they are necessary for the website to function.</p>
+            
+            <form id="cookie-preferences-form">
+                <div class="cookie-setting cookie-setting-essential">
+                    <div>
+                        <strong>Essential Cookies</strong>
+                        <p>Necessary for the website to function properly.</p>
+                    </div>
+                    <input type="checkbox" checked disabled>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Preference Cookies</strong>
+                        <p>Store your preferences like dark mode.</p>
+                    </div>
+                    <input type="checkbox" name="preferences" checked>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Analytics Cookies</strong>
+                        <p>Help us understand how visitors interact with our website.</p>
+                    </div>
+                    <input type="checkbox" name="analytics" checked>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Advertising Cookies</strong>
+                        <p>Used to provide you with relevant ads and measure their effectiveness.</p>
+                    </div>
+                    <input type="checkbox" name="advertising" checked>
+                </div>
+                
+                <div class="cookie-modal-footer">
+                    <button type="button" id="save-cookie-settings" class="cookie-btn cookie-btn-accept">Save Preferences</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cookies.js') }}"></script>
     <script>
         // Update current year
         const yearElement = document.getElementById('current-year');
