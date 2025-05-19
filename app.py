@@ -151,9 +151,8 @@ def robots():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    """Generate a dynamic sitemap.xml"""
-    sitemap_xml = generate_sitemap(app)
-    return Response(sitemap_xml, mimetype='application/xml')
+    """Serve the static sitemap.xml file"""
+    return send_file('static/sitemap.xml', mimetype='application/xml')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
