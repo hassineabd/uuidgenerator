@@ -96,6 +96,10 @@ def api_uuid():
     result = api_generate_uuid(uuid_type, count)
     return jsonify(result)
 
+@app.route('/uuidguide')
+def uuidguide():
+    return render_template('uuidguide.html')
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
     app.run(host='0.0.0.0', port=port) 

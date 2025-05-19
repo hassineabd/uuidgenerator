@@ -626,4 +626,168 @@ nav ul li:last-child {
 }
 
 /* Ajout de quelques polices modernes via Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+
+/* UUID Page Styles */
+.uuid-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.uuid-sidebar {
+    flex: 0 0 250px;
+    position: sticky;
+    top: 5px;
+    align-self: flex-start;
+    border-right: 1px solid #e0e0e0;
+    padding-right: 20px;
+    height: auto;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 200px;
+}
+
+.sidebar-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.uuid-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.uuid-nav li {
+    margin-bottom: 1px;
+    width: 100%;
+}
+
+.uuid-nav a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    white-space: normal;
+    width: 100%;
+}
+
+.uuid-nav a:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+.uuid-nav .main-item {
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.uuid-nav .main-item a {
+    font-size: 1.1em;
+}
+
+.uuid-content {
+    flex: 1;
+    max-width: 800px;
+}
+
+.uuid-content h1 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+}
+
+.uuid-content section {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.uuid-content h2 {
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.uuid-content h3 {
+    color: #444;
+    margin-top: 20px;
+}
+
+.uuid-content code {
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.uuid-content pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+@media (max-width: 768px) {
+    .uuid-container {
+        flex-direction: column;
+    }
+    
+    .uuid-sidebar {
+        position: relative;
+        height: auto;
+        flex: 0 0 auto;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+}
+
+/* UUID Sidebar Accordion Styles */
+.uuid-nav .has-submenu {
+    position: relative;
+}
+
+.uuid-nav .submenu {
+    display: none;
+    padding-left: 15px;
+    margin-top: 0px;
+    list-style: none;
+}
+
+.uuid-nav .submenu li {
+    margin-bottom: 0px;
+}
+
+.uuid-nav .dropdown-arrow {
+    font-size: 10px;
+    transition: transform 0.3s;
+    position: absolute;
+    right: 12px;
+}
+
+.uuid-nav .has-submenu.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.uuid-nav .has-submenu.active .submenu {
+    display: block;
+}
+
+.uuid-nav .submenu-toggle {
+    position: relative;
+    cursor: pointer;
+} 
