@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Générateur d'UUID</h1>
+    <p>Générez des UUIDs et GUIDs facilement pour vos projets</p>
+</section>
+
+<section class="uuid-generator">
+    <div class="card">
+        <h2>Générer un UUID</h2>
+        
+        <form id="uuid-form">
+            <div class="form-group">
+                <label for="uuid-type">Type d'UUID:</label>
+                <select id="uuid-type" name="type">
+                    <option value="v4">UUID v4 (aléatoire)</option>
+                    <option value="v1">UUID v1 (basé sur le temps)</option>
+                    <option value="v5">UUID v5 (basé sur le nom)</option>
+                    <option value="guid">GUID (format Windows)</option>
+                </select>
+            </div>
+            
+            <div class="form-group v5-options" style="display: none;">
+                <label for="namespace">Namespace UUID (optionnel):</label>
+                <input type="text" id="namespace" name="namespace" placeholder="ex: 6ba7b810-9dad-11d1-80b4-00c04fd430c8">
+                
+                <label for="name">Nom:</label>
+                <input type="text" id="name" name="name" placeholder="ex: example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="prefix">Préfixe (optionnel):</label>
+                <input type="text" id="prefix" name="prefix" placeholder="ex: my-prefix-">
+                
+                <label for="suffix">Suffixe (optionnel):</label>
+                <input type="text" id="suffix" name="suffix" placeholder="ex: -suffix">
+            </div>
+            
+            <button type="submit" class="btn">Générer UUID</button>
+        </form>
+        
+        <div id="result" class="result">
+            <h3>Résultat:</h3>
+            <div class="uuid-display">
+                <input type="text" id="uuid-result" readonly>
+                <button id="copy-uuid" class="btn-small">Copier</button>
+            </div>
+            
+            <div class="result-actions">
+                <button id="generate-qr" class="btn-action">QR Code</button>
+                <button id="generate-hash" class="btn-action">Hash</button>
+                <button id="show-code" class="btn-action">Code</button>
+            </div>
+            
+            <div id="qr-result" style="display: none;">
+                <h4>QR Code:</h4>
+                <div id="qr-image"></div>
+                <button id="download-qr" class="btn-small">Télécharger</button>
+            </div>
+            
+            <div id="hash-result" style="display: none;">
+                <h4>Hash:</h4>
+                <div class="hash-options">
+                    <select id="hash-type">
+                        <option value="md5">MD5</option>
+                        <option value="sha1">SHA-1</option>
+                        <option value="sha256">SHA-256</option>
+                        <option value="sha512">SHA-512</option>
+                    </select>
+                    <button id="generate-hash-btn" class="btn-small">Générer</button>
+                </div>
+                <div class="uuid-display">
+                    <input type="text" id="hash-value" readonly>
+                    <button id="copy-hash" class="btn-small">Copier</button>
+                </div>
+            </div>
+            
+            <div id="code-result" style="display: none;">
+                <h4>Code:</h4>
+                <div class="code-options">
+                    <select id="code-language">
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                    </select>
+                    <button id="generate-code-btn" class="btn-small">Générer</button>
+                </div>
+                <pre id="code-snippet"><code></code></pre>
+                <button id="copy-code" class="btn-small">Copier le Code</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2>Fonctionnalités</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Différents types d'UUID</h3>
+            <p>Support pour UUID v1, v4, v5 et GUID</p>
+        </div>
+        <div class="feature-card">
+            <h3>Génération en masse</h3>
+            <p>Créez des milliers d'UUIDs en un clic</p>
+        </div>
+        <div class="feature-card">
+            <h3>QR Code</h3>
+            <p>Générez des QR codes pour vos UUIDs</p>
+        </div>
+        <div class="feature-card">
+            <h3>API Gratuite</h3>
+            <p>API pour intégrer la génération d'UUID dans vos applications</p>
+        </div>
+        <div class="feature-card">
+            <h3>Mode Sombre</h3>
+            <p>Interface utilisateur adaptative</p>
+        </div>
+        <div class="feature-card">
+            <h3>UUID Personnalisés</h3>
+            <p>Ajoutez des préfixes et suffixes à vos UUIDs</p>
+        </div>
+    </div>
+</section>
+{% endblock %} 

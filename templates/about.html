@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>À propos du Générateur d'UUID</h1>
+    <p>Un outil simple pour tous vos besoins d'UUIDs</p>
+</section>
+
+<section class="about-content">
+    <div class="card">
+        <h2>Qu'est-ce qu'un UUID?</h2>
+        <p>Un UUID (Universally Unique Identifier) est un identifiant de 128 bits standardisé qui garantit l'unicité à travers l'espace et le temps. Les UUIDs sont largement utilisés en informatique pour identifier de manière unique des informations sans nécessiter de coordination centrale.</p>
+        
+        <p>Les UUIDs sont représentés sous forme de chaînes de 36 caractères (32 caractères hexadécimaux et 4 tirets) comme ceci :</p>
+        <pre><code>550e8400-e29b-11d4-a716-446655440000</code></pre>
+        
+        <h3>Types d'UUIDs</h3>
+        <ul>
+            <li><strong>UUID v1</strong> - Basé sur l'heure et l'adresse MAC</li>
+            <li><strong>UUID v4</strong> - Générés aléatoirement</li>
+            <li><strong>UUID v5</strong> - Générés à partir d'un namespace et d'un nom</li>
+            <li><strong>GUID</strong> - Format Microsoft Windows (identique à un UUID mais entouré d'accolades)</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Fonctionnalités</h2>
+        <ul>
+            <li>Génération de différents types d'UUID (v1, v4, v5, GUID)</li>
+            <li>Génération en masse jusqu'à 1000 UUIDs</li>
+            <li>Création de QR codes à partir d'UUIDs</li>
+            <li>Génération de hashes (MD5, SHA-1, SHA-256, SHA-512)</li>
+            <li>Possibilité d'ajouter des préfixes et suffixes personnalisés</li>
+            <li>API REST gratuite pour intégration dans vos applications</li>
+            <li>Génération de snippets de code pour plusieurs langages</li>
+            <li>Interface en mode clair ou sombre</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Utilisations courantes des UUIDs</h2>
+        <ul>
+            <li>Identifiants de base de données</li>
+            <li>Identifiants d'objets distribués</li>
+            <li>Références uniques dans les URLs</li>
+            <li>Tokens d'authentification</li>
+            <li>Identifiants de session</li>
+            <li>Noms de fichiers uniques</li>
+            <li>Identifiants d'instances dans les systèmes distribués</li>
+        </ul>
+    </div>
+</section>
+{% endblock %} 

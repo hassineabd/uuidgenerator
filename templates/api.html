@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>API UUID Gratuite</h1>
+    <p>Générez des UUIDs facilement via notre API REST</p>
+</section>
+
+<section class="api-docs">
+    <div class="card">
+        <h2>Documentation de l'API</h2>
+        
+        <div class="api-intro">
+            <p>Notre API gratuite vous permet de générer des UUIDs dans vos applications. Il suffit d'effectuer une simple requête GET.</p>
+            <p>Limite: <strong>{{ config.API_RATE_LIMIT }}</strong> par adresse IP.</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3>Point d'accès</h3>
+            <pre><code>GET https://{{ request.host }}/api/v1/uuid</code></pre>
+        </div>
+        
+        <div class="parameters">
+            <h3>Paramètres</h3>
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Paramètre</th>
+                        <th>Description</th>
+                        <th>Valeurs possibles</th>
+                        <th>Défaut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>type</td>
+                        <td>Type d'UUID à générer</td>
+                        <td>v1, v4, v5, guid</td>
+                        <td>v4</td>
+                    </tr>
+                    <tr>
+                        <td>count</td>
+                        <td>Nombre d'UUIDs à générer</td>
+                        <td>1-100</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="examples">
+            <h3>Exemples</h3>
+            
+            <h4>Générer un UUID v4</h4>
+            <pre><code>GET https://{{ request.host }}/api/v1/uuid</code></pre>
+            <div class="response">
+                <h5>Réponse</h5>
+                <pre><code>{
+  "success": true,
+  "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+}</code></pre>
+            </div>
+            
+            <h4>Générer un UUID v1</h4>
+            <pre><code>GET https://{{ request.host }}/api/v1/uuid?type=v1</code></pre>
+            <div class="response">
+                <h5>Réponse</h5>
+                <pre><code>{
+  "success": true,
+  "uuid": "550e8400-e29b-11d4-a716-446655440000"
+}</code></pre>
+            </div>
+            
+            <h4>Générer plusieurs UUIDs</h4>
+            <pre><code>GET https://{{ request.host }}/api/v1/uuid?count=3</code></pre>
+            <div class="response">
+                <h5>Réponse</h5>
+                <pre><code>{
+  "success": true,
+  "count": 3,
+  "uuids": [
+    "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "550e8400-e29b-41d4-a716-446655440000",
+    "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+  ]
+}</code></pre>
+            </div>
+        </div>
+        
+        <div class="code-examples">
+            <h3>Exemples de code</h3>
+            
+            <div class="code-tabs">
+                <button class="code-tab active" data-lang="js">JavaScript</button>
+                <button class="code-tab" data-lang="python">Python</button>
+                <button class="code-tab" data-lang="php">PHP</button>
+                <button class="code-tab" data-lang="java">Java</button>
+            </div>
+            
+            <div class="code-panel" id="js-panel">
+                <pre><code>// Avec fetch API
+fetch('https://{{ request.host }}/api/v1/uuid?count=5')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.uuids);
+  })
+  .catch(error => console.error('Error:', error));</code></pre>
+            </div>
+            
+            <div class="code-panel" id="python-panel" style="display: none;">
+                <pre><code>import requests
+
+response = requests.get('https://{{ request.host }}/api/v1/uuid?count=5')
+data = response.json()
+uuids = data['uuids']
+print(uuids)</code></pre>
+            </div>
+            
+            <div class="code-panel" id="php-panel" style="display: none;">
+                <pre><code>$response = file_get_contents('https://{{ request.host }}/api/v1/uuid?count=5');
+$data = json_decode($response, true);
+$uuids = $data['uuids'];
+print_r($uuids);</code></pre>
+            </div>
+            
+            <div class="code-panel" id="java-panel" style="display: none;">
+                <pre><code>import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import org.json.JSONObject;
+
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("https://{{ request.host }}/api/v1/uuid?count=5"))
+        .build();
+
+client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+      .thenApply(HttpResponse::body)
+      .thenApply(body -> new JSONObject(body))
+      .thenAccept(json -> System.out.println(json.getJSONArray("uuids")))
+      .join();</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des onglets de code
+    const codeTabs = document.querySelectorAll('.code-tab');
+    const codePanels = document.querySelectorAll('.code-panel');
+    
+    codeTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Retirer la classe active de tous les onglets
+            codeTabs.forEach(t => t.classList.remove('active'));
+            // Ajouter la classe active à l'onglet cliqué
+            this.classList.add('active');
+            
+            // Masquer tous les panneaux
+            codePanels.forEach(panel => panel.style.display = 'none');
+            
+            // Afficher le panneau correspondant
+            const lang = this.dataset.lang;
+            document.getElementById(`${lang}-panel`).style.display = 'block';
+        });
+    });
+});
+</script>
+{% endblock %} 

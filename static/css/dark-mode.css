@@ -1,0 +1,29 @@
+.dark-mode {
+    --primary-color: #3498db;
+    --secondary-color: #1a1a2e;
+    --accent-color: #e74c3c;
+    --bg-color: #121212;
+    --card-bg-color: #1e1e1e;
+    --text-color: #f0f0f0;
+    --border-color: #2a2a2a;
+    --input-bg: #252525;
+    --input-border: #333333;
+}
+
+.dark-mode pre {
+    background-color: #252525;
+    color: #f0f0f0;
+}
+
+#theme-toggle {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dark-mode #theme-toggle {
+    border-color: #f0f0f0;
+} 

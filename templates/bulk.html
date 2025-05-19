@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Génération d'UUIDs en masse</h1>
+    <p>Générez jusqu'à 1000 UUIDs en un seul clic</p>
+</section>
+
+<section class="bulk-generator">
+    <div class="card">
+        <h2>Générer des UUIDs en masse</h2>
+        
+        <form id="bulk-form">
+            <div class="form-group">
+                <label for="bulk-count">Nombre d'UUIDs à générer:</label>
+                <input type="number" id="bulk-count" name="count" min="1" max="1000" value="10">
+            </div>
+            
+            <div class="form-group">
+                <label for="bulk-uuid-type">Type d'UUID:</label>
+                <select id="bulk-uuid-type" name="type">
+                    <option value="v4">UUID v4 (aléatoire)</option>
+                    <option value="v1">UUID v1 (basé sur le temps)</option>
+                    <option value="guid">GUID (format Windows)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn">Générer</button>
+        </form>
+        
+        <div id="bulk-result" class="result">
+            <h3>UUIDs générés:</h3>
+            <div class="action-buttons">
+                <button id="copy-all" class="btn-small">Copier tout</button>
+                <button id="download-txt" class="btn-small">Télécharger .txt</button>
+                <button id="download-csv" class="btn-small">Télécharger .csv</button>
+                <button id="download-json" class="btn-small">Télécharger .json</button>
+            </div>
+            
+            <div class="format-options">
+                <label>Format d'affichage:</label>
+                <select id="display-format">
+                    <option value="list">Liste simple</option>
+                    <option value="numbered">Liste numérotée</option>
+                    <option value="quoted">Avec guillemets</option>
+                    <option value="array">Format tableau</option>
+                </select>
+            </div>
+            
+            <textarea id="bulk-uuids" readonly rows="15"></textarea>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const bulkForm = document.getElementById('bulk-form');
+    const bulkResult = document.getElementById('bulk-result');
+    const bulkUuids = document.getElementById('bulk-uuids');
+    const copyAllBtn = document.getElementById('copy-all');
+    const displayFormat = document.getElementById('display-format');
+    
+    let generatedUuids = [];
+    
+    // Soumission du formulaire
+    bulkForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(bulkForm);
+        
+        fetch('/generate-bulk', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            generatedUuids = data.uuids;
+            updateDisplay();
+            bulkResult.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Une erreur est survenue lors de la génération des UUIDs.');
+        });
+    });
+    
+    // Mise à jour de l'affichage selon le format sélectionné
+    function updateDisplay() {
+        const format = displayFormat.value;
+        let output = '';
+        
+        switch(format) {
+            case 'list':
+                output = generatedUuids.join('\n');
+                break;
+            case 'numbered':
+                output = generatedUuids.map((uuid, index) => `${index + 1}. ${uuid}`).join('\n');
+                break;
+            case 'quoted':
+                output = generatedUuids.map(uuid => `"${uuid}"`).join('\n');
+                break;
+            case 'array':
+                output = '[\n  ' + generatedUuids.map(uuid => `"${uuid}"`).join(',\n  ') + '\n]';
+                break;
+        }
+        
+        bulkUuids.value = output;
+    }
+    
+    // Changer le format d'affichage
+    displayFormat.addEventListener('change', updateDisplay);
+    
+    // Copier tous les UUIDs
+    copyAllBtn.addEventListener('click', function() {
+        bulkUuids.select();
+        document.execCommand('copy');
+        showToast('UUIDs copiés dans le presse-papiers');
+    });
+    
+    // Télécharger en format TXT
+    document.getElementById('download-txt').addEventListener('click', function() {
+        downloadFile('uuids.txt', generatedUuids.join('\n'), 'text/plain');
+    });
+    
+    // Télécharger en format CSV
+    document.getElementById('download-csv').addEventListener('click', function() {
+        downloadFile('uuids.csv', generatedUuids.join('\n'), 'text/csv');
+    });
+    
+    // Télécharger en format JSON
+    document.getElementById('download-json').addEventListener('click', function() {
+        downloadFile('uuids.json', JSON.stringify(generatedUuids, null, 2), 'application/json');
+    });
+    
+    // Fonction pour télécharger un fichier
+    function downloadFile(filename, content, contentType) {
+        const blob = new Blob([content], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    // Toast notification
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.classList.add('toast');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(function() {
+            toast.classList.add('show');
+        }, 100);
+        
+        setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+});
+</script>
+{% endblock %} 

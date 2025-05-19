@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ config.SITE_KEYWORDS }}">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}" id="theme-css">
+    
+    <!-- Monetag Ad Code -->
+    {% if config.MONETAG_ID %}
+    <script type="text/javascript">
+        var monetag_id = "{{ config.MONETAG_ID }}";
+        document.write('<scr'+'ipt src="//'+monetag_id+'.jsdelivr.net/gh/monesecorg/monetag@latest/dist/monetag.min.js" async><'+'/scr'+'ipt>');
+    </script>
+    {% endif %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="/">Générateur d'UUID</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/bulk">Génération en masse</a></li>
+                    <li><a href="/api">API</a></li>
+                    <li><button id="theme-toggle">Mode Sombre</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Générateur d'UUID. Créez facilement des UUIDs, GUIDs et QR codes.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
+    <script>
+        // Mettre à jour l'année courante
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html> 
