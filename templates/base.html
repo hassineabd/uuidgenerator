@@ -87,7 +87,7 @@
 
     <footer>
         <div class="container">
-            <p>© 2024 UUID Generator. Easily create UUIDs, GUIDs and QR codes.</p>
+            <p>© <span id="current-year">2024</span> UUID Generator. Easily create UUIDs, GUIDs and QR codes.</p>
         </div>
     </footer>
 
@@ -95,7 +95,10 @@
     <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
     <script>
         // Update current year
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        const yearElement = document.getElementById('current-year');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
     </script>
 </body>
 </html> 

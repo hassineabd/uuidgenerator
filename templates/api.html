@@ -151,21 +151,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const codeTabs = document.querySelectorAll('.code-tab');
     const codePanels = document.querySelectorAll('.code-panel');
     
-    codeTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Remove active class from all tabs
-            codeTabs.forEach(t => t.classList.remove('active'));
-            // Add active class to clicked tab
-            this.classList.add('active');
-            
-            // Hide all panels
-            codePanels.forEach(panel => panel.style.display = 'none');
-            
-            // Show corresponding panel
-            const lang = this.dataset.lang;
-            document.getElementById(`${lang}-panel`).style.display = 'block';
+    if (codeTabs.length > 0 && codePanels.length > 0) {
+        codeTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                codeTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all panels
+                codePanels.forEach(panel => {
+                    if (panel) {
+                        panel.style.display = 'none';
+                    }
+                });
+                
+                // Show corresponding panel
+                const lang = this.dataset.lang;
+                const panel = document.getElementById(`${lang}-panel`);
+                if (panel) {
+                    panel.style.display = 'block';
+                }
+            });
         });
-    });
+    }
 });
 </script>
 {% endblock %} 
