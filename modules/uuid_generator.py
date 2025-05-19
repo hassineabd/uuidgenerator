@@ -51,3 +51,61 @@ def get_code_snippet(uuid_value, language):
     }
     
     return snippets.get(language, "Code not available for this language") 
+
+def decode_uuid(uuid_string):
+    """
+    Décode un UUID existant et fournit des informations détaillées
+    """
+    try:
+        # Supprimer les accolades si elles sont présentes (format GUID)
+        if uuid_string.startswith('{') and uuid_string.endswith('}'):
+            uuid_string = uuid_string[1:-1]
+            
+        # Créer un objet UUID
+        uuid_obj = uuid.UUID(uuid_string)
+        
+        # Extraire les informations
+        result = {
+            'uuid': str(uuid_obj),
+            'uuid_hex': uuid_obj.hex,
+            'uuid_bytes': list(uuid_obj.bytes),
+            'uuid_int': uuid_obj.int,
+            'uuid_variant': uuid_obj.variant,
+            'uuid_version': uuid_obj.version,
+            'is_valid': True,
+            'fields': {
+                'time_low': uuid_obj.time_low,
+                'time_mid': uuid_obj.time_mid,
+                'time_hi_version': uuid_obj.time_hi_version,
+                'clock_seq_hi_variant': uuid_obj.clock_seq_hi_variant,
+                'clock_seq_low': uuid_obj.clock_seq_low,
+                'node': uuid_obj.node
+            }
+        }
+        
+        # Déterminer le type d'UUID
+        if uuid_obj.version == 1:
+            result['type'] = 'UUID version 1 (time-based)'
+            result['timestamp'] = uuid_obj.time
+        elif uuid_obj.version == 3:
+            result['type'] = 'UUID version 3 (name-based with MD5)'
+        elif uuid_obj.version == 4:
+            result['type'] = 'UUID version 4 (random)'
+        elif uuid_obj.version == 5:
+            result['type'] = 'UUID version 5 (name-based with SHA-1)'
+        else:
+            result['type'] = f'UUID version {uuid_obj.version}'
+            
+        return result
+    except ValueError:
+        return {
+            'uuid': uuid_string,
+            'is_valid': False,
+            'error': 'Format invalide d\'UUID'
+        }
+    except Exception as e:
+        return {
+            'uuid': uuid_string,
+            'is_valid': False,
+            'error': str(e)
+        } 

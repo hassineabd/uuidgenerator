@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, send_file
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from modules.uuid_generator import generate_uuid, generate_bulk_uuids, generate_custom_uuid
+from modules.uuid_generator import generate_uuid, generate_bulk_uuids, generate_custom_uuid, decode_uuid
 from modules.qr_generator import generate_qr_code
 from modules.hash_generator import generate_hash
 from modules.api_handler import api_generate_uuid
@@ -43,6 +43,12 @@ def api_docs():
                           title="UUID API - Documentation - " + Config.SITE_TITLE,
                           description="Documentation for the free API to generate UUIDs programmatically.")
 
+@app.route('/decoder')
+def decoder():
+    return render_template('decoder.html',
+                          title="UUID Decoder - " + Config.SITE_TITLE,
+                          description="Decode existing UUIDs to understand their version, variant, and structure.")
+
 @app.route('/generate', methods=['POST'])
 def generate():
     uuid_type = request.form.get('type', 'v4')
@@ -83,6 +89,12 @@ def hash_uuid():
     hash_value = generate_hash(uuid_value, hash_type)
     return jsonify({'hash': hash_value})
 
+@app.route('/decode-uuid', methods=['POST'])
+def decode_uuid_route():
+    uuid_string = request.form.get('uuid', '')
+    result = decode_uuid(uuid_string)
+    return jsonify(result)
+
 @app.route('/api/v1/uuid', methods=['GET'])
 @limiter.limit(Config.API_RATE_LIMIT)
 def api_uuid():
@@ -94,6 +106,13 @@ def api_uuid():
         count = 100
     
     result = api_generate_uuid(uuid_type, count)
+    return jsonify(result)
+
+@app.route('/api/v1/decode', methods=['GET'])
+@limiter.limit(Config.API_RATE_LIMIT)
+def api_decode_uuid():
+    uuid_string = request.args.get('uuid', '')
+    result = decode_uuid(uuid_string)
     return jsonify(result)
 
 @app.route('/uuidguide')
