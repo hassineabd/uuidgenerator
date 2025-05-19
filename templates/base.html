@@ -16,6 +16,48 @@
         document.write('<scr'+'ipt src="//'+monetag_id+'.jsdelivr.net/gh/monesecorg/monetag@latest/dist/monetag.min.js" async><'+'/scr'+'ipt>');
     </script>
     {% endif %}
+
+    <!-- Meta tags canonique et langue -->
+    <link rel="canonical" href="{{ request.url_root }}{{ request.path.lstrip('/') }}">
+    <meta name="language" content="English">
+    <meta property="og:locale" content="{{ config.PRIMARY_LOCALE }}">
+    {% for locale in config.ALTERNATE_LOCALES %}
+    <meta property="og:locale:alternate" content="{{ locale }}">
+    {% endfor %}
+    
+    <!-- Open Graph tags pour les réseaux sociaux -->
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ request.url_root.rstrip('/') }}{{ config.SITE_IMAGE }}">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:image" content="{{ request.url_root.rstrip('/') }}{{ config.SITE_IMAGE }}">
+    {% if config.SITE_TWITTER %}
+    <meta name="twitter:site" content="{{ config.SITE_TWITTER }}">
+    {% endif %}
+    
+    <!-- Schema.org structured data for better Google results -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "{{ config.SCHEMA_TYPE }}",
+        "name": "{{ config.SCHEMA_NAME }}",
+        "description": "{{ config.SCHEMA_DESCRIPTION }}",
+        "url": "{{ request.url_root }}",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
 </head>
 <body>
     <header>

@@ -12,20 +12,36 @@
         
         <form id="bulk-form">
             <div class="form-group">
-                <label for="bulk-count">Number of UUIDs to generate:</label>
-                <input type="number" id="bulk-count" name="count" min="1" max="1000" value="10">
-            </div>
-            
-            <div class="form-group">
-                <label for="bulk-uuid-type">UUID Type:</label>
-                <select id="bulk-uuid-type" name="type">
+                <label for="bulk-type">
+                    UUID Type:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            <strong>UUID v1:</strong> Time-based UUIDs generated in sequence.<br>
+                            <strong>UUID v4:</strong> Random UUIDs, each independently generated.
+                        </span>
+                    </div>
+                </label>
+                <select id="bulk-type" name="type">
                     <option value="v4">UUID v4 (random)</option>
                     <option value="v1">UUID v1 (time-based)</option>
-                    <option value="guid">GUID (Windows format)</option>
                 </select>
             </div>
             
-            <button type="submit" class="btn">Generate</button>
+            <div class="form-group">
+                <label for="count">
+                    Number of UUIDs:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            Choose how many UUIDs to generate at once. Maximum is 1000 per request.
+                        </span>
+                    </div>
+                </label>
+                <input type="number" id="count" name="count" min="1" max="1000" value="10">
+            </div>
+            
+            <button type="submit" class="btn primary">Generate Bulk UUIDs</button>
         </form>
         
         <div id="bulk-result" class="result">
