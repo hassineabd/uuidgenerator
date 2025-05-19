@@ -512,6 +512,7 @@ footer {
     margin-bottom: 0;
     border-bottom: 1px solid var(--border-color);
     overflow-x: auto;
+    padding-bottom: 0;
 }
 
 .code-tab {
@@ -567,8 +568,23 @@ footer {
 }
 
 .api-docs .response {
-    margin-left: 1rem;
-    margin-bottom: 2rem;
+    margin-left: 0;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.api-docs .response h5 {
+    margin-bottom: 0.5rem;
+}
+
+.api-docs .examples h4 {
+    margin-top: 2.5rem;
+}
+
+.api-docs .examples h4:first-of-type {
+    margin-top: 1.5rem;
 }
 
 .param-table {
@@ -912,6 +928,8 @@ nav ul li:last-child {
     overflow-x: auto;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
+    display: block;
+    white-space: pre;
 }
 
 .lang-content code {
@@ -920,6 +938,7 @@ nav ul li:last-child {
     padding: 2px 5px;
     border-radius: 3px;
     font-size: 0.9em;
+    display: inline-block;
 }
 
 @media (max-width: 768px) {
@@ -975,5 +994,75 @@ nav ul li:last-child {
 }
 
 .lang-item.active .lang-icon {
-    filter: brightness(0) invert(1); /* Pour rendre les icônes blanches quand actif */
+    filter: brightness(5);
+    opacity: 1;
+    background-color: transparent !important;
+}
+
+/* Ensure code blocks and their content are visible */
+.code-panel, .code-panel pre, .code-panel code,
+.lang-content pre, .lang-content code {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #f8fafc !important;
+    background-color: #1e293b !important;
+    z-index: 10;
+    position: relative;
+}
+
+/* Specific override for inline code */
+.lang-content p code, .lang-content li code {
+    display: inline-block !important;
+    color: var(--primary-color) !important;
+    background-color: rgba(74, 108, 247, 0.1) !important;
+}
+
+/* Make sure code inside pre tags is clearly visible */
+pre code {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    white-space: pre !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+}
+
+/* Code highlighting fixes */
+.code-tab.active {
+    background-color: rgba(74, 108, 247, 0.1);
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Fix for code elements - improve visibility by adding more contrast */
+.lang-content pre code {
+    color: #f8fafc !important;
+    background-color: transparent !important;
+    display: block;
+}
+
+.lang-content code {
+    color: var(--primary-color) !important;
+    background-color: rgba(74, 108, 247, 0.1) !important;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+}
+
+.lang-content p code, .lang-content li code {
+    display: inline-block !important;
+    color: var(--primary-color) !important;
+    background-color: rgba(74, 108, 247, 0.1) !important;
+}
+
+/* Add a contrast border to help separate code from background */
+.lang-content pre {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Remove border from last response in examples section */
+.api-docs .examples .response:last-child {
+    border-bottom: none;
 } 
