@@ -790,4 +790,190 @@ nav ul li:last-child {
 .uuid-nav .submenu-toggle {
     position: relative;
     cursor: pointer;
+}
+
+/* Developer Corner Styles */
+.dev-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dev-sidebar {
+    flex: 0 0 220px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    border-right: 1px solid var(--border-color);
+    padding-right: 20px;
+    height: auto;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dev-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.dev-nav li {
+    margin-bottom: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.lang-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    transition: background-color 0.2s;
+    background-color: #f5f5f5;
+}
+
+.lang-item:hover {
+    background-color: var(--input-bg);
+}
+
+.lang-item.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.lang-item img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
+
+.dev-content {
+    flex: 1;
+    max-width: 800px;
+}
+
+.dev-content h1 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.dev-intro {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.dev-content h2 {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.dev-content h2 img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.lang-content {
+    display: none;
+}
+
+.lang-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.lang-content section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.lang-content section:last-child {
+    border-bottom: none;
+}
+
+.lang-content pre {
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: var(--radius);
+    background-color: #1e293b;
+    color: #f8fafc;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+
+.lang-content code {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--input-bg);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .dev-container {
+        flex-direction: column;
+    }
+    
+    .dev-sidebar {
+        position: relative;
+        height: auto;
+        flex: 0 0 auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .dev-nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .dev-nav li {
+        width: auto;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lang-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.dev-content h2 .lang-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.lang-item.active .lang-icon {
+    filter: brightness(0) invert(1); /* Pour rendre les icônes blanches quand actif */
 } 

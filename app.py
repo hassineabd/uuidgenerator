@@ -100,6 +100,13 @@ def api_uuid():
 def uuidguide():
     return render_template('uuidguide.html')
 
+@app.route('/developer')
+def developer():
+    return render_template('developer.html', 
+                          title="Developer Corner - UUID Implementation - " + Config.SITE_TITLE,
+                          description="Learn how to implement UUID generation in different programming languages with code examples and best practices.",
+                          task={'title': 'Titre par défaut'})
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5002))
     app.run(host='0.0.0.0', port=port) 

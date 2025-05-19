@@ -71,4 +71,37 @@
     .dark-mode .uuid-sidebar {
         border-bottom-color: #444;
     }
+}
+
+/* Developer Corner Dark Mode Styles */
+.dark-mode .dev-sidebar {
+    border-right-color: var(--border-color);
+}
+
+.dark-mode .lang-item:hover {
+    background-color: #333;
+}
+
+.dark-mode .lang-item.active {
+    background-color: var(--primary-color);
+}
+
+.dark-mode .dev-content h1 {
+    border-bottom-color: var(--primary-color);
+}
+
+.dark-mode .lang-content section {
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .lang-content code {
+    background-color: #333;
+}
+
+.dark-mode .lang-content pre {
+    background-color: #2a2a2a;
+}
+
+.dark-mode .lang-item.active .lang-icon {
+    filter: brightness(0) invert(1);
 } 
