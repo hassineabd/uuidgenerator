@@ -158,6 +158,10 @@ def developer():
 def robots():
     return send_file('static/robots.txt')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_file('static/images/favico/favicon.ico')
+
 @app.route('/sitemap.xml')
 def sitemap():
     """Serve the static sitemap.xml file"""

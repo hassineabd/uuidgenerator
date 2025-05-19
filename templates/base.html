@@ -11,6 +11,18 @@
     {% endif %}
     <title>{{ title }} | Free UUID Generator Online</title>
     
+    <!-- Favicons and Mobile Web App -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favico/favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favico/favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='images/favico/favicon-96x96.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favico/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/favico/site.webmanifest') }}">
+    <meta name="theme-color" content="#4a6cf7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="UUID Generator">
+    <meta name="application-name" content="UUID Generator">
+    
     <!-- SEO Meta Tags -->
     <meta name="robots" content="index, follow">
     <meta name="author" content="UUID Generator Tool">
