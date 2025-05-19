@@ -29,8 +29,11 @@ def inject_now():
 @app.route('/')
 def index():
     return render_template('index.html', 
-                          title="UUID Generator", 
-                          description="Generate UUIDs and GUIDs easily for your projects")
+                          title="UUID Generator Online - Free Tool for Creating UUIDs and GUIDs", 
+                          description="Generate secure, unique identifiers instantly for your applications and databases. Free online UUID generator with v1, v4, v5 and GUID support.",
+                          schema_type="WebApplication",
+                          canonical_url="https://easyuuidgenerator.com/",
+                          keywords="uuid generator, guid generator, uuid v4, uuid v1, uuid v5, online generator, unique id")
 
 @app.route('/bulk')
 def bulk():
@@ -54,19 +57,25 @@ def decoder():
 def terms():
     return render_template('terms.html',
                           title="Terms and Conditions - " + Config.SITE_TITLE,
-                          description="Terms and conditions for using the UUID Generator service.")
+                          description="Terms and conditions for using the UUID Generator service. Learn about our service usage rules, API terms, and legal information.",
+                          schema_type="WebPage",
+                          last_updated=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html',
                           title="Privacy Policy - " + Config.SITE_TITLE,
-                          description="Privacy policy explaining how we handle your data when using our UUID Generator service.")
+                          description="Our privacy policy explains how we collect, use, and protect your data when using our UUID Generator service. Learn about your privacy rights.",
+                          schema_type="WebPage",
+                          last_updated=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @app.route('/cookies')
 def cookies():
     return render_template('cookies.html',
                           title="Cookie Policy - " + Config.SITE_TITLE,
-                          description="Our cookie policy explaining how we use cookies and similar technologies.")
+                          description="Our cookie policy explains how we use cookies and similar technologies on our website. Understand what data is collected and how to manage your cookie preferences.",
+                          schema_type="WebPage",
+                          last_updated=datetime.datetime.now().strftime('%Y-%m-%d'))
 
 @app.route('/generate', methods=['POST'])
 def generate():

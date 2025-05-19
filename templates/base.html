@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ description }}">
+    {% if keywords is defined %}
+    <meta name="keywords" content="{{ keywords }}">
+    {% else %}
     <meta name="keywords" content="{{ config.SITE_KEYWORDS }}">
-    <title>{{ title }}</title>
+    {% endif %}
+    <title>{{ title }} | Free UUID Generator Online</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="UUID Generator Tool">
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}" id="theme-css">
     
@@ -18,7 +27,11 @@
     {% endif %}
 
     <!-- Meta tags canonique et langue -->
-    <link rel="canonical" href="{{ request.url_root }}{{ request.path.lstrip('/') }}">
+    {% if canonical_url is defined %}
+    <link rel="canonical" href="{{ canonical_url }}" />
+    {% else %}
+    <link rel="canonical" href="https://easyuuidgenerator.com{{ request.path }}" />
+    {% endif %}
     <meta name="language" content="English">
     <meta property="og:locale" content="{{ config.PRIMARY_LOCALE }}">
     {% for locale in config.ALTERNATE_LOCALES %}
@@ -26,17 +39,18 @@
     {% endfor %}
     
     <!-- Open Graph tags pour les réseaux sociaux -->
+    <meta property="og:site_name" content="Easy UUID Generator">
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
-    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:url" content="https://easyuuidgenerator.com{{ request.path }}">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ request.url_root.rstrip('/') }}{{ config.SITE_IMAGE }}">
+    <meta property="og:image" content="https://easyuuidgenerator.com{{ config.SITE_IMAGE }}">
     
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description }}">
-    <meta name="twitter:image" content="{{ request.url_root.rstrip('/') }}{{ config.SITE_IMAGE }}">
+    <meta name="twitter:image" content="https://easyuuidgenerator.com{{ config.SITE_IMAGE }}">
     {% if config.SITE_TWITTER %}
     <meta name="twitter:site" content="{{ config.SITE_TWITTER }}">
     {% endif %}
@@ -45,12 +59,15 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "{{ config.SCHEMA_TYPE }}",
+        "@type": "{{ schema_type|default(config.SCHEMA_TYPE) }}",
         "name": "{{ config.SCHEMA_NAME }}",
         "description": "{{ config.SCHEMA_DESCRIPTION }}",
-        "url": "{{ request.url_root }}",
+        "url": "https://easyuuidgenerator.com{{ request.path }}",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "All",
+        {% if last_updated is defined %}
+        "dateModified": "{{ last_updated }}",
+        {% endif %}
         "offers": {
             "@type": "Offer",
             "price": "0",
@@ -58,6 +75,30 @@
         }
     }
     </script>
+    
+    {% if request.path != '/' %}
+    <!-- Breadcrumb structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://easyuuidgenerator.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ title.split(' - ')[0] }}",
+                "item": "https://easyuuidgenerator.com{{ request.path }}"
+            }
+        ]
+    }
+    </script>
+    {% endif %}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

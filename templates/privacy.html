@@ -2,45 +2,62 @@
 
 {% block content %}
 <section class="content-section">
-    <h1>Privacy Policy</h1>
+    <h1 id="privacy-policy">Privacy Policy</h1>
     <p>Last updated: {{ now.strftime('%B %d, %Y') }}</p>
     
+    <div class="policy-index">
+        <h2>Contents</h2>
+        <ol>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#information">Information We Collect</a></li>
+            <li><a href="#usage">How We Use Your Information</a></li>
+            <li><a href="#retention">Data Retention</a></li>
+            <li><a href="#providers">Third-Party Service Providers</a></li>
+            <li><a href="#advertising">Advertising</a></li>
+            <li><a href="#rights">Your Data Protection Rights</a></li>
+            <li><a href="#children">Children's Privacy</a></li>
+            <li><a href="#changes">Changes to This Privacy Policy</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ol>
+    </div>
+    
     <div class="privacy-container">
-        <h2>1. Introduction</h2>
-        <p>UUID Generator ("we," "our," or "us") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.</p>
+        <h2 id="introduction">1. Introduction</h2>
+        <p>UUID Generator ("we," "our," or "us") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website at <a href="https://easyuuidgenerator.com">easyuuidgenerator.com</a>.</p>
         
-        <h2>2. Information We Collect</h2>
-        <p>When you use our UUID Generator service, we may collect:</p>
+        <h2 id="information">2. Information We Collect</h2>
+        <p>When you use our <a href="/">UUID Generator</a> service, we may collect:</p>
         <ul>
             <li><strong>Usage Data:</strong> Information on how you access and use our service, including IP address, browser type, pages visited, time spent on pages, and unique device identifiers.</li>
-            <li><strong>API Usage:</strong> When using our API, we collect API calls, rate limits, and usage patterns to improve our service and enforce fair usage.</li>
-            <li><strong>Cookies:</strong> We use cookies to enhance your experience. See our <a href="/cookies">Cookie Policy</a> for more details.</li>
+            <li><strong>API Usage:</strong> When using our <a href="{{ url_for('api_docs') }}">API</a>, we collect API calls, rate limits, and usage patterns to improve our service and enforce fair usage.</li>
+            <li><strong>Cookies:</strong> We use cookies to enhance your experience. See our <a href="{{ url_for('cookies') }}">Cookie Policy</a> for more details.</li>
         </ul>
         
-        <h2>3. How We Use Your Information</h2>
+        <h2 id="usage">3. How We Use Your Information</h2>
         <p>We use the collected information for:</p>
         <ul>
-            <li>Providing and maintaining our service</li>
+            <li>Providing and maintaining our <a href="/">UUID generation service</a>, including the <a href="{{ url_for('bulk') }}">bulk generator</a> and <a href="{{ url_for('decoder') }}">UUID decoder</a></li>
             <li>Monitoring the usage of our service</li>
             <li>Detecting, preventing, and addressing technical issues</li>
             <li>Improving our website and user experience</li>
             <li>Displaying relevant advertisements through our partner Monetag</li>
         </ul>
         
-        <h2>4. Data Retention</h2>
+        <h2 id="retention">4. Data Retention</h2>
         <p>We retain usage logs for a maximum of 30 days. We do not store any personally identifiable information beyond what is necessary to provide our service.</p>
         
-        <h2>5. Third-Party Service Providers</h2>
+        <h2 id="providers">5. Third-Party Service Providers</h2>
         <p>We may employ third-party companies and individuals to facilitate our service ("Service Providers"), including:</p>
         <ul>
             <li><strong>Analytics providers:</strong> To help us understand website usage</li>
             <li><strong>Advertising partners:</strong> Including Monetag, to display relevant advertisements</li>
         </ul>
+        <p>We use industry standard practices to ensure these service providers meet high privacy standards. For more information about how third-party providers handle data, you can refer to resources like the <a href="https://www.privacyshield.gov/welcome" target="_blank" rel="noopener noreferrer">Privacy Shield Framework</a>.</p>
         
-        <h2>6. Advertising</h2>
-        <p>We use Monetag as our advertising partner. Monetag may collect and use data for targeted advertising. For more information about how Monetag processes your data, please refer to their privacy policy.</p>
+        <h2 id="advertising">6. Advertising</h2>
+        <p>We use Monetag as our advertising partner. Monetag may collect and use data for targeted advertising. For more information about how Monetag processes your data, please refer to their <a href="https://monetag.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
         
-        <h2>7. Your Data Protection Rights</h2>
+        <h2 id="rights">7. Your Data Protection Rights</h2>
         <p>Depending on your location, you may have the following rights:</p>
         <ul>
             <li>The right to access information we hold about you</li>
@@ -49,16 +66,28 @@
             <li>The right to restrict or object to processing</li>
             <li>The right to data portability</li>
         </ul>
+        <p>For more information about data protection rights in different regions, you can visit resources like the <a href="https://gdpr.eu/what-is-gdpr/" target="_blank" rel="noopener noreferrer">EU's GDPR information portal</a> or the <a href="https://www.oaic.gov.au/privacy/privacy-legislation" target="_blank" rel="noopener noreferrer">Australian Privacy Principles</a>.</p>
         
-        <h2>8. Children's Privacy</h2>
+        <h2 id="children">8. Children's Privacy</h2>
         <p>Our service is not intended for individuals under 16 years of age. We do not knowingly collect personally identifiable information from children.</p>
         
-        <h2>9. Changes to This Privacy Policy</h2>
+        <h2 id="changes">9. Changes to This Privacy Policy</h2>
         <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
         
-        <h2>10. Contact Us</h2>
+        <h2 id="contact">10. Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-        <p><a href="mailto:contact@uuidgenerator.com">contact@uuidgenerator.com</a></p>
+        <p><a href="mailto:contact@easyuuidgenerator.com">contact@easyuuidgenerator.com</a></p>
+
+        <div class="related-info">
+            <h3>Related Information</h3>
+            <ul>
+                <li><a href="{{ url_for('terms') }}">Terms & Conditions</a> - Our service terms</li>
+                <li><a href="{{ url_for('cookies') }}">Cookie Policy</a> - How we use cookies on our site</li>
+                <li><a href="https://gdpr.eu/what-is-gdpr/" target="_blank" rel="noopener noreferrer">GDPR Information</a> - European data protection regulation</li>
+                <li><a href="https://www.cookielaw.org/the-cookie-law/" target="_blank" rel="noopener noreferrer">Cookie Law</a> - Information about cookie regulations</li>
+                <li><a href="https://www.iubenda.com/en/help/5428-data-protection-officer-dpo-gdpr" target="_blank" rel="noopener noreferrer">Data Protection Officers</a> - Role of DPOs under privacy regulations</li>
+            </ul>
+        </div>
     </div>
 </section>
 {% endblock %} 

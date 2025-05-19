@@ -1404,4 +1404,84 @@ footer p {
 .dark-mode .privacy-container a,
 .dark-mode .cookies-container a {
     color: #63b3ed;
+}
+
+/* Related Resources section in policy pages */
+.related-info {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background-color: rgba(74, 108, 247, 0.05);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--primary-color);
+}
+
+.related-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.related-info ul {
+    margin-bottom: 0;
+}
+
+.related-info a {
+    font-weight: 500;
+}
+
+.dark-mode .related-info {
+    background-color: rgba(74, 108, 247, 0.1);
+}
+
+/* Table des matières pour les pages de politique */
+.policy-index {
+    background-color: var(--card-bg-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--primary-color);
+}
+
+.policy-index h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: none;
+}
+
+.policy-index ol {
+    column-count: 2;
+    column-gap: 2rem;
+    list-style-position: inside;
+    margin-left: 0;
+}
+
+.policy-index li {
+    margin-bottom: 0.5rem;
+}
+
+.policy-index a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.policy-index a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.dark-mode .policy-index {
+    background-color: #1a202c;
+}
+
+.dark-mode .policy-index a {
+    color: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .policy-index ol {
+        column-count: 1;
+    }
 } 
