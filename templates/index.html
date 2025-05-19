@@ -2,8 +2,8 @@
 
 {% block content %}
 <section class="hero">
-    <h1>UUID Generator</h1>
-    <p>Generate UUIDs and GUIDs easily for your projects</p>
+    <h1>UUID Generator Online</h1>
+    <p>Generate secure, unique identifiers instantly for your applications and databases</p>
 </section>
 
 <section class="uuid-generator">
@@ -137,31 +137,87 @@
 </section>
 
 <section class="features">
-    <h2>Features</h2>
+    <h2>Powerful UUID Generation Features</h2>
     <div class="feature-grid">
         <div class="feature-card">
-            <h3>Different UUID Types</h3>
-            <p>Support for UUID v1, v4, v5 and GUID</p>
+            <h3>Multiple UUID Standards</h3>
+            <p>Generate UUIDs according to RFC 4122 standards, including Version 1 (time-based), Version 4 (random), Version 5 (name-based), and Microsoft GUID format.</p>
         </div>
         <div class="feature-card">
-            <h3>Bulk Generation</h3>
-            <p>Create thousands of UUIDs with one click</p>
+            <h3>High-Performance Bulk Generation</h3>
+            <p>Create up to 1,000 UUIDs simultaneously with our optimized generator. Perfect for database seeding, testing, and large-scale application needs.</p>
         </div>
         <div class="feature-card">
-            <h3>QR Code</h3>
-            <p>Generate QR codes for your UUIDs</p>
+            <h3>Advanced QR Code Integration</h3>
+            <p>Convert any UUID to a scannable QR code with one click. Download high-resolution QR codes for use in documentation, inventory systems, or asset tracking.</p>
         </div>
         <div class="feature-card">
-            <h3>Free API</h3>
-            <p>API to integrate UUID generation into your applications</p>
+            <h3>Developer-Friendly API</h3>
+            <p>Integrate UUID generation directly into your applications with our free, RESTful API. Supports all UUID versions with flexible response formats.</p>
         </div>
         <div class="feature-card">
-            <h3>Dark Mode</h3>
-            <p>Adaptive user interface</p>
+            <h3>Customizable Identifiers</h3>
+            <p>Add custom prefixes and suffixes to your UUIDs to create domain-specific identifiers that maintain global uniqueness while adding context.</p>
         </div>
         <div class="feature-card">
-            <h3>Custom UUIDs</h3>
-            <p>Add prefixes and suffixes to your UUIDs</p>
+            <h3>Comprehensive UUID Analysis</h3>
+            <p>Decode and inspect any UUID to understand its version, components, timestamp data, and variant information with our powerful decoder tool.</p>
+        </div>
+    </div>
+</section>
+
+<section class="uuid-applications">
+    <h2>UUID Applications Across Industries</h2>
+    <div class="applications-container">
+        <div class="application-column">
+            <div class="application-card">
+                <h3>Database Systems</h3>
+                <p>UUIDs are ideal primary keys in distributed database systems, eliminating synchronization requirements when generating unique identifiers across multiple servers or microservices.</p>
+            </div>
+            <div class="application-card">
+                <h3>Web Development</h3>
+                <p>Modern web applications use UUIDs for secure, unpredictable identifiers in URLs, session tokens, and content management systems to prevent enumeration attacks.</p>
+            </div>
+            <div class="application-card">
+                <h3>Cloud Computing</h3>
+                <p>Cloud infrastructures rely on UUIDs to track virtual machines, storage volumes, and network interfaces across distributed systems without central coordination.</p>
+            </div>
+        </div>
+        <div class="application-column">
+            <div class="application-card">
+                <h3>IoT Devices</h3>
+                <p>Internet of Things ecosystems use UUIDs to assign persistent identities to devices, sensors, and data streams, enabling reliable device recognition across networks.</p>
+            </div>
+            <div class="application-card">
+                <h3>Healthcare Systems</h3>
+                <p>Healthcare applications implement UUIDs to create globally unique medical record identifiers while maintaining patient privacy and enabling secure data exchange.</p>
+            </div>
+            <div class="application-card">
+                <h3>Gaming Platforms</h3>
+                <p>Online gaming platforms generate UUIDs for player accounts, game instances, and in-game items to ensure uniqueness in high-volume, distributed gaming environments.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="uuid-best-practices">
+    <h2>UUID Implementation Best Practices</h2>
+    <div class="best-practices-container">
+        <div class="best-practice">
+            <h3>When to Use UUID Version 4</h3>
+            <p>UUID v4 (random) is ideal when you need maximum unpredictability and have no requirements for sequential ordering or timestamp information. Best for public-facing identifiers and security-sensitive applications.</p>
+        </div>
+        <div class="best-practice">
+            <h3>When to Use UUID Version 1</h3>
+            <p>UUID v1 (time-based) works best when you need chronological ordering capability or time tracking within the identifier itself. Useful for logging systems and time-sequence dependent operations.</p>
+        </div>
+        <div class="best-practice">
+            <h3>When to Use UUID Version 5</h3>
+            <p>UUID v5 (name-based) is perfect when you need deterministic, reproducible identifiers based on known information. Ideal for content addressing, URL mapping, and consistent identification of well-known resources.</p>
+        </div>
+        <div class="best-practice">
+            <h3>Database Storage Optimization</h3>
+            <p>When storing UUIDs in databases, use dedicated UUID data types when available for optimal performance. For databases without native UUID support, consider binary storage formats to save space.</p>
         </div>
     </div>
 </section>
@@ -220,6 +276,51 @@
         border-width: 5px;
         border-style: solid;
         border-color: #333 transparent transparent transparent;
+    }
+
+    /* Styles for new sections */
+    .uuid-applications, .uuid-best-practices {
+        margin: 3rem 0;
+    }
+
+    .applications-container {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .application-column {
+        flex: 1;
+    }
+
+    .application-card, .best-practice {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .application-card h3, .best-practice h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+
+    .application-card p, .best-practice p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .best-practices-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .applications-container {
+            flex-direction: column;
+        }
     }
 </style>
 

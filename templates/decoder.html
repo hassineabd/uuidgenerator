@@ -2,8 +2,8 @@
 
 {% block content %}
 <section class="hero">
-    <h1>UUID Decoder</h1>
-    <p>Analyze and decode any UUID to understand its structure and properties</p>
+    <h1>UUID Decoder and Analyzer</h1>
+    <p>Decode, analyze, and visualize any UUID to understand its internal structure and properties</p>
 </section>
 
 <section class="uuid-decoder">
@@ -131,27 +131,462 @@
     </div>
 </section>
 
-<section class="uuid-info">
-    <h2>About UUIDs</h2>
-    <div class="info-grid">
-        <div class="info-card">
-            <h3>What is a UUID?</h3>
-            <p>A UUID (Universally Unique Identifier) is a 128-bit identifier designed to be globally unique without centralized coordination.</p>
+<section class="uuid-comprehensive-guide">
+    <h2>Understanding UUID Structure and Versions</h2>
+    
+    <div class="uuid-structure-diagram">
+        <h3>Anatomy of a UUID</h3>
+        <div class="diagram-container">
+            <div class="diagram">
+                <div class="diagram-section time-low">
+                    <div class="label">Time Low</div>
+                    <div class="value">550e8400</div>
+                </div>
+                <div class="diagram-section time-mid">
+                    <div class="label">Time Mid</div>
+                    <div class="value">e29b</div>
+                </div>
+                <div class="diagram-section time-high">
+                    <div class="label">Time High + Version</div>
+                    <div class="value">41d4</div>
+                </div>
+                <div class="diagram-section clock-seq">
+                    <div class="label">Clock Seq + Variant</div>
+                    <div class="value">a716</div>
+                </div>
+                <div class="diagram-section node">
+                    <div class="label">Node</div>
+                    <div class="value">446655440000</div>
+                </div>
+            </div>
+            <div class="bit-positions">
+                <span>0────────31</span>
+                <span>32─47</span>
+                <span>48─63</span>
+                <span>64─79</span>
+                <span>80───────────127</span>
+            </div>
         </div>
-        <div class="info-card">
-            <h3>UUID Versions</h3>
-            <p>There are different UUID versions, each generated differently: v1 (time-based), v3 (MD5 hash), v4 (random), v5 (SHA-1 hash).</p>
+        <p class="diagram-description">UUIDs are 128-bit identifiers divided into five specific components, each serving a distinct purpose depending on the UUID version. The example above shows the standard 8-4-4-4-12 representation format.</p>
+    </div>
+    
+    <div class="uuid-versions-grid">
+        <div class="uuid-version-card">
+            <h3>UUID Version 1 (Time-based)</h3>
+            <ul>
+                <li><strong>Structure:</strong> Contains timestamp and MAC address</li>
+                <li><strong>Generation Process:</strong> Combines current timestamp (measured in 100-nanosecond intervals since October 15, 1582) with the network card MAC address</li>
+                <li><strong>Advantages:</strong> Sequential, sortable by generation time</li>
+                <li><strong>Privacy Concerns:</strong> Reveals MAC address and timestamp</li>
+                <li><strong>Best for:</strong> Logging systems, audit trails, and time-ordered events</li>
+            </ul>
         </div>
-        <div class="info-card">
-            <h3>Structure</h3>
-            <p>A standard UUID is represented by 32 hexadecimal characters, displayed in 5 groups separated by hyphens: 8-4-4-4-12.</p>
+        
+        <div class="uuid-version-card">
+            <h3>UUID Version 4 (Random)</h3>
+            <ul>
+                <li><strong>Structure:</strong> Primarily random bits except for version and variant markers</li>
+                <li><strong>Generation Process:</strong> Filled with cryptographically strong random numbers</li>
+                <li><strong>Advantages:</strong> Highest uniqueness guarantee, no system-identifiable information</li>
+                <li><strong>Privacy Concerns:</strong> None, contains no identifying information</li>
+                <li><strong>Best for:</strong> General-purpose identifiers, security-sensitive applications</li>
+            </ul>
         </div>
-        <div class="info-card">
-            <h3>Uses</h3>
-            <p>UUIDs are used in databases, software development, and object tracking to ensure uniqueness without conflicts.</p>
+        
+        <div class="uuid-version-card">
+            <h3>UUID Version 3 (MD5 Name-based)</h3>
+            <ul>
+                <li><strong>Structure:</strong> Derived from namespace and name using MD5 hash</li>
+                <li><strong>Generation Process:</strong> Hashes a namespace UUID and a name string with MD5</li>
+                <li><strong>Advantages:</strong> Deterministic - same input always yields same UUID</li>
+                <li><strong>Security Note:</strong> MD5 is not cryptographically secure</li>
+                <li><strong>Best for:</strong> Legacy systems requiring stable identifiers from names</li>
+            </ul>
+        </div>
+        
+        <div class="uuid-version-card">
+            <h3>UUID Version 5 (SHA-1 Name-based)</h3>
+            <ul>
+                <li><strong>Structure:</strong> Derived from namespace and name using SHA-1 hash</li>
+                <li><strong>Generation Process:</strong> Hashes a namespace UUID and a name string with SHA-1</li>
+                <li><strong>Advantages:</strong> Deterministic like v3, but with stronger hash algorithm</li>
+                <li><strong>Security Note:</strong> Stronger than v3, but still deterministic</li>
+                <li><strong>Best for:</strong> Content-addressing systems, URL shorteners, deterministic IDs</li>
+            </ul>
         </div>
     </div>
 </section>
+
+<section class="uuid-technical-details">
+    <h2>Technical Implementation Details</h2>
+    
+    <div class="technical-grid">
+        <div class="technical-card">
+            <h3>UUID Variant Fields</h3>
+            <p>The variant field in a UUID defines the layout of the bits. Four variants are defined by RFC 4122:</p>
+            <table class="technical-table">
+                <thead>
+                    <tr>
+                        <th>Variant Bits</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0xx</td>
+                        <td>Reserved for NCS backward compatibility</td>
+                    </tr>
+                    <tr>
+                        <td>10x</td>
+                        <td>RFC 4122 variant (most common)</td>
+                    </tr>
+                    <tr>
+                        <td>110</td>
+                        <td>Reserved for Microsoft legacy GUIDs</td>
+                    </tr>
+                    <tr>
+                        <td>111</td>
+                        <td>Reserved for future definition</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>The variant field is stored in the highest bits of the clock sequence field (8th octet).</p>
+        </div>
+        
+        <div class="technical-card">
+            <h3>UUID Binary Structure</h3>
+            <p>At the binary level, UUIDs are composed of 16 bytes (128 bits) with specific bit positions:</p>
+            <ul>
+                <li><strong>Version:</strong> Bits 48-51 (4 bits)</li>
+                <li><strong>Variant:</strong> Bits 64-65 (2-3 bits)</li>
+                <li><strong>Time fields (v1):</strong> Bits 0-47 and 60-63</li>
+                <li><strong>Clock sequence (v1):</strong> Bits 66-79</li>
+                <li><strong>Node (v1):</strong> Bits 80-127</li>
+            </ul>
+            <p>When formatted as text, UUIDs are typically represented as 32 hexadecimal digits with hyphens: 8-4-4-4-12.</p>
+        </div>
+    </div>
+</section>
+
+<section class="uuid-practical-applications">
+    <h2>Practical Applications and Implementation</h2>
+    
+    <div class="application-examples">
+        <div class="code-example">
+            <h3>UUID Implementation Across Languages</h3>
+            <div class="code-tabs">
+                <div class="code-tab">
+                    <h4>Python</h4>
+                    <pre><code class="language-python">import uuid
+
+# Generate UUID v4 (random)
+random_uuid = uuid.uuid4()
+print(random_uuid)
+
+# Generate UUID v1 (time-based)
+time_uuid = uuid.uuid1()
+print(time_uuid)
+
+# Generate UUID v5 (name-based SHA-1)
+namespace = uuid.NAMESPACE_URL
+name = "https://example.com"
+name_uuid = uuid.uuid5(namespace, name)
+print(name_uuid)
+
+# Parse an existing UUID
+parsed_uuid = uuid.UUID("550e8400-e29b-41d4-a716-446655440000")
+print(f"Version: {parsed_uuid.version}")
+print(f"Variant: {parsed_uuid.variant}")</code></pre>
+                </div>
+                
+                <div class="code-tab">
+                    <h4>JavaScript</h4>
+                    <pre><code class="language-javascript">// Using the crypto API (modern browsers)
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
+console.log(uuidv4());
+
+// Using a library like uuid
+// npm install uuid
+const { v1, v4, v5, validate, parse } = require('uuid');
+
+const uuidV4 = v4();
+const uuidV1 = v1();
+const uuidV5 = v5('https://example.com', v5.URL);
+
+console.log(uuidV4);
+console.log(uuidV1);
+console.log(uuidV5);
+
+// Validating and parsing
+const isValid = validate('550e8400-e29b-41d4-a716-446655440000');
+const parsed = parse('550e8400-e29b-41d4-a716-446655440000');</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="security-considerations">
+        <h3>Security and Privacy Considerations</h3>
+        <div class="consideration-grid">
+            <div class="consideration-card">
+                <h4>UUID v1 Privacy Risks</h4>
+                <p>UUID v1 contains the MAC address of the generating machine and a timestamp, which can expose system information and timing details. In privacy-sensitive applications, v4 (random) UUIDs are recommended.</p>
+            </div>
+            <div class="consideration-card">
+                <h4>Predictability Concerns</h4>
+                <p>For security-sensitive identifiers like session tokens or reset passwords, using predictable UUIDs (v3/v5) can create vulnerabilities. Always use v4 for security contexts requiring unpredictability.</p>
+            </div>
+            <div class="consideration-card">
+                <h4>Collision Probability</h4>
+                <p>The probability of a v4 UUID collision is extremely low (1 in 2^122), making it virtually impossible in practice. For comparison, you would need to generate 2.71 quintillion UUIDs to reach a 50% probability of a single collision.</p>
+            </div>
+            <div class="consideration-card">
+                <h4>Database Performance</h4>
+                <p>Random UUIDs (v4) can cause database performance issues when used as primary keys in indexed columns due to their non-sequential nature. Consider UUID v1 or database-optimized formats for high-performance requirements.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Decoder Enhanced Styles */
+    .uuid-comprehensive-guide,
+    .uuid-technical-details,
+    .uuid-practical-applications {
+        margin: 3rem 0;
+    }
+    
+    .uuid-structure-diagram {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .diagram-container {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+    }
+    
+    .diagram {
+        display: flex;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+    }
+    
+    .diagram-section {
+        text-align: center;
+        padding: 1rem 0.5rem;
+        border-right: 1px solid var(--border-color);
+    }
+    
+    .diagram-section:last-child {
+        border-right: none;
+    }
+    
+    .diagram-section .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .diagram-section .value {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .time-low {
+        flex: 8;
+        background-color: rgba(52, 152, 219, 0.1);
+    }
+    
+    .time-mid {
+        flex: 4;
+        background-color: rgba(46, 204, 113, 0.1);
+    }
+    
+    .time-high {
+        flex: 4;
+        background-color: rgba(155, 89, 182, 0.1);
+    }
+    
+    .clock-seq {
+        flex: 4;
+        background-color: rgba(241, 196, 15, 0.1);
+    }
+    
+    .node {
+        flex: 12;
+        background-color: rgba(231, 76, 60, 0.1);
+    }
+    
+    .bit-positions {
+        display: flex;
+        width: 100%;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .bit-positions span {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .bit-positions span:nth-child(1) {
+        flex: 8;
+    }
+    
+    .bit-positions span:nth-child(2),
+    .bit-positions span:nth-child(3),
+    .bit-positions span:nth-child(4) {
+        flex: 4;
+    }
+    
+    .bit-positions span:nth-child(5) {
+        flex: 12;
+    }
+    
+    .diagram-description {
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        color: var(--text-muted);
+    }
+    
+    .uuid-versions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .uuid-version-card {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .uuid-version-card h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .uuid-version-card ul {
+        padding-left: 1.5rem;
+        margin: 0;
+    }
+    
+    .uuid-version-card li {
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+    
+    .technical-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .technical-card {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .technical-card h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .technical-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+    }
+    
+    .technical-table th, .technical-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .technical-table th {
+        border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .code-example {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .code-tabs {
+        margin-top: 1rem;
+    }
+    
+    .code-tab {
+        margin-bottom: 1.5rem;
+    }
+    
+    .code-tab h4 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+    
+    .code-tab pre {
+        background-color: var(--code-bg);
+        border-radius: 4px;
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 0;
+    }
+    
+    .code-tab code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .consideration-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .consideration-card {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .consideration-card h4 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 768px) {
+        .diagram-container {
+            overflow-x: scroll;
+        }
+    }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -249,96 +684,25 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.blob())
         .then(blob => {
-            const imgUrl = URL.createObjectURL(blob);
-            qrImage.innerHTML = `<img src="${imgUrl}" alt="QR Code" style="max-width: 100%;">`;
+            const url = URL.createObjectURL(blob);
             qrResult.style.display = 'block';
+            qrImage.innerHTML = `<img src="${url}" alt="QR Code for ${uuidValue}">`;
             
-            // Download button
+            // Download QR button
             document.getElementById('decode-download-qr').addEventListener('click', function() {
                 const a = document.createElement('a');
-                a.href = imgUrl;
-                a.download = `qr-${uuidValue}.png`;
+                a.href = url;
+                a.download = `uuid-qr-${uuidValue}.png`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
             });
         })
         .catch(error => {
-            console.error('Error:', error);
-            qrImage.innerHTML = '<p>Error generating QR code.</p>';
-            qrResult.style.display = 'block';
+            console.error('Error generating QR code:', error);
+            alert('Error generating QR code. Please try again.');
         });
     });
 });
 </script>
-
-<style>
-.uuid-decoder .card {
-    margin-bottom: 30px;
-}
-
-.info-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.info-table th, .info-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.info-table th {
-    width: 40%;
-    font-weight: 600;
-}
-
-.result-section {
-    margin-bottom: 30px;
-}
-
-.result-section h4 {
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #3498db;
-}
-
-.error-message {
-    padding: 10px;
-    background-color: #f8d7da;
-    color: #721c24;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.info-card {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.info-card h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-}
-
-/* Support des thèmes sombre et clair */
-body.dark-mode .error-message {
-    background-color: #362a2d;
-    color: #f8d7da;
-}
-
-body.dark-mode .info-table th, body.dark-mode .info-table td {
-    border-bottom: 1px solid #444;
-}
-</style>
 {% endblock %} 
