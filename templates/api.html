@@ -90,41 +90,43 @@
         <div class="code-examples">
             <h3>Code Examples</h3>
             
-            <div class="code-tabs">
-                <button class="code-tab active" data-lang="js">JavaScript</button>
-                <button class="code-tab" data-lang="python">Python</button>
-                <button class="code-tab" data-lang="php">PHP</button>
-                <button class="code-tab" data-lang="java">Java</button>
-            </div>
-            
-            <div class="code-panel" id="js-panel">
-                <pre><code>// With fetch API
+            <div class="tabs-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="js">JavaScript</div>
+                    <div class="tab" data-tab="python">Python</div>
+                    <div class="tab" data-tab="php">PHP</div>
+                    <div class="tab" data-tab="java">Java</div>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-pane active" id="js-content">
+<pre><code>// With fetch API
 fetch('https://{{ request.host }}/api/v1/uuid?count=5')
   .then(response => response.json())
   .then(data => {
     console.log(data.uuids);
   })
   .catch(error => console.error('Error:', error));</code></pre>
-            </div>
-            
-            <div class="code-panel" id="python-panel" style="display: none;">
-                <pre><code>import requests
+                    </div>
+                    
+                    <div class="tab-pane" id="python-content">
+<pre><code>import requests
 
 response = requests.get('https://{{ request.host }}/api/v1/uuid?count=5')
 data = response.json()
 uuids = data['uuids']
 print(uuids)</code></pre>
-            </div>
-            
-            <div class="code-panel" id="php-panel" style="display: none;">
-                <pre><code>$response = file_get_contents('https://{{ request.host }}/api/v1/uuid?count=5');
+                    </div>
+                    
+                    <div class="tab-pane" id="php-content">
+<pre><code>$response = file_get_contents('https://{{ request.host }}/api/v1/uuid?count=5');
 $data = json_decode($response, true);
 $uuids = $data['uuids'];
 print_r($uuids);</code></pre>
-            </div>
-            
-            <div class="code-panel" id="java-panel" style="display: none;">
-                <pre><code>import java.net.URI;
+                    </div>
+                    
+                    <div class="tab-pane" id="java-content">
+<pre><code>import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -140,41 +142,96 @@ client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
       .thenApply(body -> new JSONObject(body))
       .thenAccept(json -> System.out.println(json.getJSONArray("uuids")))
       .join();</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<style>
+/* Styles pour les onglets */
+.tabs-container {
+    margin-top: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabs {
+    display: flex;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    color: #4a6cf7;
+    border-bottom-color: #4a6cf7;
+}
+
+.tab:hover {
+    color: #4a6cf7;
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane pre {
+    margin: 0;
+    padding: 16px;
+    background-color: #1e293b;
+    color: #f8fafc;
+    overflow-x: auto;
+    border-radius: 0;
+}
+</style>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Code tabs management
-    const codeTabs = document.querySelectorAll('.code-tab');
-    const codePanels = document.querySelectorAll('.code-panel');
-    
-    if (codeTabs.length > 0 && codePanels.length > 0) {
-        codeTabs.forEach(tab => {
+// Isolé dans une fonction auto-exécutée pour éviter les conflits
+(function() {
+    // Attendons que le DOM soit complètement chargé
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sélectionnons tous les onglets
+        const tabs = document.querySelectorAll('.tabs-container .tab');
+        
+        // Pour chaque onglet, ajoutons un gestionnaire d'événement de clic
+        tabs.forEach(tab => {
             tab.addEventListener('click', function() {
-                // Remove active class from all tabs
-                codeTabs.forEach(t => t.classList.remove('active'));
-                // Add active class to clicked tab
+                // Supprimons la classe active de tous les onglets
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Ajoutons la classe active à l'onglet cliqué
                 this.classList.add('active');
                 
-                // Hide all panels
-                codePanels.forEach(panel => {
-                    if (panel) {
-                        panel.style.display = 'none';
-                    }
-                });
+                // Récupérons l'ID du contenu à afficher
+                const tabId = this.getAttribute('data-tab');
                 
-                // Show corresponding panel
-                const lang = this.dataset.lang;
-                const panel = document.getElementById(`${lang}-panel`);
-                if (panel) {
-                    panel.style.display = 'block';
-                }
+                // Masquons tous les contenus d'onglet
+                const tabPanes = document.querySelectorAll('.tab-pane');
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                
+                // Affichons le contenu correspondant à l'onglet sélectionné
+                document.getElementById(tabId + '-content').classList.add('active');
             });
         });
-    }
-});
+    });
+})();
 </script>
 {% endblock %} 
