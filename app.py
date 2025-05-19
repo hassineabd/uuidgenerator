@@ -145,7 +145,10 @@ def api_decode_uuid():
 
 @app.route('/uuidguide')
 def uuidguide():
-    return render_template('uuidguide.html')
+    return render_template('uuidguide.html', 
+                          title="Understanding UUID - Universal Unique Identifiers - " + Config.SITE_TITLE,
+                          description="Comprehensive guide to Universal Unique Identifiers (UUID): types, generation, security, applications, and best practices for developers and tech professionals.",
+                          schema_type="WebPage")
 
 @app.route('/developer')
 def developer():
