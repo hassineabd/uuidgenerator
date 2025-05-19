@@ -8,9 +8,11 @@ class Config:
     API_RATE_LIMIT = "100 per day"
     
     # SEO Configuration
-    SITE_TITLE = "Générateur UUID - Créez des UUIDs et GUIDs facilement"
-    SITE_DESCRIPTION = "Générez des UUID v1, v4, v5, GUID, QR codes, et hash en quelques clics. API gratuite disponible pour les développeurs."
-    SITE_KEYWORDS = "uuid, guid, générateur, uuid v4, uuid v1, uuid v5, qr code, api uuid, bulk uuid"
+    SITE_TITLE = "UUID Generator - Create UUIDs and GUIDs easily"
+    SITE_DESCRIPTION = "Generate UUID v1, v4, v5, GUID, QR codes, and hashes in just a few clicks. Free API available for developers."
+    SITE_KEYWORDS = "uuid, guid, generator, uuid v4, uuid v1, uuid v5, qr code, uuid api, bulk uuid"
     
     # Monetag
-    MONETAG_ID = os.environ.get('MONETAG_ID') or '' 
+    MONETAG_ID = os.environ.get('MONETAG_ID') or ''
+    
+    # Les paramètres de langue ont été supprimés 

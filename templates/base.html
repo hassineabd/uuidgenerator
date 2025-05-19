@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +20,13 @@
 <body>
     <header>
         <div class="container">
-            <h1><a href="/">Générateur d'UUID</a></h1>
+            <h1><a href="/">UUID Generator</a></h1>
             <nav>
                 <ul>
-                    <li><a href="/">Accueil</a></li>
-                    <li><a href="/bulk">Génération en masse</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/bulk">Bulk Generation</a></li>
                     <li><a href="/api">API</a></li>
-                    <li><button id="theme-toggle">Mode Sombre</button></li>
+                    <li><button id="theme-toggle">Dark Mode</button></li>
                 </ul>
             </nav>
         </div>
@@ -38,14 +38,14 @@
 
     <footer>
         <div class="container">
-            <p>© 2024 Générateur d'UUID. Créez facilement des UUIDs, GUIDs et QR codes.</p>
+            <p>© 2024 UUID Generator. Easily create UUIDs, GUIDs and QR codes.</p>
         </div>
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
     <script>
-        // Mettre à jour l'année courante
+        // Update current year
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>

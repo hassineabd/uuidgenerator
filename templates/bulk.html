@@ -2,48 +2,48 @@
 
 {% block content %}
 <section class="hero">
-    <h1>Génération d'UUIDs en masse</h1>
-    <p>Générez jusqu'à 1000 UUIDs en un seul clic</p>
+    <h1>Bulk UUID Generation</h1>
+    <p>Generate up to 1000 UUIDs with a single click</p>
 </section>
 
 <section class="bulk-generator">
     <div class="card">
-        <h2>Générer des UUIDs en masse</h2>
+        <h2>Generate UUIDs in Bulk</h2>
         
         <form id="bulk-form">
             <div class="form-group">
-                <label for="bulk-count">Nombre d'UUIDs à générer:</label>
+                <label for="bulk-count">Number of UUIDs to generate:</label>
                 <input type="number" id="bulk-count" name="count" min="1" max="1000" value="10">
             </div>
             
             <div class="form-group">
-                <label for="bulk-uuid-type">Type d'UUID:</label>
+                <label for="bulk-uuid-type">UUID Type:</label>
                 <select id="bulk-uuid-type" name="type">
-                    <option value="v4">UUID v4 (aléatoire)</option>
-                    <option value="v1">UUID v1 (basé sur le temps)</option>
-                    <option value="guid">GUID (format Windows)</option>
+                    <option value="v4">UUID v4 (random)</option>
+                    <option value="v1">UUID v1 (time-based)</option>
+                    <option value="guid">GUID (Windows format)</option>
                 </select>
             </div>
             
-            <button type="submit" class="btn">Générer</button>
+            <button type="submit" class="btn">Generate</button>
         </form>
         
         <div id="bulk-result" class="result">
-            <h3>UUIDs générés:</h3>
+            <h3>Generated UUIDs:</h3>
             <div class="action-buttons">
-                <button id="copy-all" class="btn-small">Copier tout</button>
-                <button id="download-txt" class="btn-small">Télécharger .txt</button>
-                <button id="download-csv" class="btn-small">Télécharger .csv</button>
-                <button id="download-json" class="btn-small">Télécharger .json</button>
+                <button id="copy-all" class="btn-small">Copy All</button>
+                <button id="download-txt" class="btn-small">Download .txt</button>
+                <button id="download-csv" class="btn-small">Download .csv</button>
+                <button id="download-json" class="btn-small">Download .json</button>
             </div>
             
             <div class="format-options">
-                <label>Format d'affichage:</label>
+                <label>Display Format:</label>
                 <select id="display-format">
-                    <option value="list">Liste simple</option>
-                    <option value="numbered">Liste numérotée</option>
-                    <option value="quoted">Avec guillemets</option>
-                    <option value="array">Format tableau</option>
+                    <option value="list">Simple List</option>
+                    <option value="numbered">Numbered List</option>
+                    <option value="quoted">With Quotes</option>
+                    <option value="array">Array Format</option>
                 </select>
             </div>
             
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let generatedUuids = [];
     
-    // Soumission du formulaire
+    // Form submission
     bulkForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Une erreur est survenue lors de la génération des UUIDs.');
+            alert('An error occurred while generating UUIDs.');
         });
     });
     
-    // Mise à jour de l'affichage selon le format sélectionné
+    // Update display based on the selected format
     function updateDisplay() {
         const format = displayFormat.value;
         let output = '';
@@ -107,32 +107,32 @@ document.addEventListener('DOMContentLoaded', function() {
         bulkUuids.value = output;
     }
     
-    // Changer le format d'affichage
+    // Change display format
     displayFormat.addEventListener('change', updateDisplay);
     
-    // Copier tous les UUIDs
+    // Copy all UUIDs
     copyAllBtn.addEventListener('click', function() {
         bulkUuids.select();
         document.execCommand('copy');
-        showToast('UUIDs copiés dans le presse-papiers');
+        showToast('UUIDs copied to clipboard');
     });
     
-    // Télécharger en format TXT
+    // Download as TXT
     document.getElementById('download-txt').addEventListener('click', function() {
         downloadFile('uuids.txt', generatedUuids.join('\n'), 'text/plain');
     });
     
-    // Télécharger en format CSV
+    // Download as CSV
     document.getElementById('download-csv').addEventListener('click', function() {
         downloadFile('uuids.csv', generatedUuids.join('\n'), 'text/csv');
     });
     
-    // Télécharger en format JSON
+    // Download as JSON
     document.getElementById('download-json').addEventListener('click', function() {
         downloadFile('uuids.json', JSON.stringify(generatedUuids, null, 2), 'application/json');
     });
     
-    // Fonction pour télécharger un fichier
+    // Function to download a file
     function downloadFile(filename, content, contentType) {
         const blob = new Blob([content], { type: contentType });
         const url = URL.createObjectURL(blob);

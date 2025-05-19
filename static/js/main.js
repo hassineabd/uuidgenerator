@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestion du formulaire UUID
+    // UUID form management
     const uuidForm = document.getElementById('uuid-form');
     const uuidTypeSelect = document.getElementById('uuid-type');
     const v5Options = document.querySelector('.v5-options');
@@ -7,35 +7,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const uuidResult = document.getElementById('uuid-result');
     const copyUuidBtn = document.getElementById('copy-uuid');
     
-    // Boutons d'actions
+    // Action buttons
     const generateQrBtn = document.getElementById('generate-qr');
     const generateHashBtn = document.getElementById('generate-hash');
     const showCodeBtn = document.getElementById('show-code');
     
-    // Sections de résultats
+    // Result sections
     const qrResult = document.getElementById('qr-result');
     const hashResult = document.getElementById('hash-result');
     const codeResult = document.getElementById('code-result');
     
-    // Gestion du mode sombre
+    // Dark mode management
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     
-    // Vérifier si le mode sombre est déjà activé
+    // Check if dark mode is already activated
     if (localStorage.getItem('darkMode') === 'true') {
         body.classList.add('dark-mode');
-        themeToggle.textContent = 'Mode Clair';
+        themeToggle.textContent = 'Light Mode';
     }
     
-    // Activer/désactiver le mode sombre
+    // Enable/disable dark mode
     themeToggle.addEventListener('click', function() {
         body.classList.toggle('dark-mode');
         const isDarkMode = body.classList.contains('dark-mode');
         localStorage.setItem('darkMode', isDarkMode);
-        themeToggle.textContent = isDarkMode ? 'Mode Clair' : 'Mode Sombre';
+        themeToggle.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
     });
     
-    // Afficher/masquer les options v5 en fonction du type d'UUID
+    // Show/hide v5 options depending on UUID type
     uuidTypeSelect.addEventListener('change', function() {
         if (this.value === 'v5') {
             v5Options.style.display = 'block';
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Soumission du formulaire
+    // Form submission
     uuidForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -58,25 +58,25 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             uuidResult.value = data.uuid;
             resultSection.style.display = 'block';
-            // Réinitialiser les sections de résultats
+            // Reset result sections
             qrResult.style.display = 'none';
             hashResult.style.display = 'none';
             codeResult.style.display = 'none';
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Une erreur est survenue lors de la génération de l\'UUID.');
+            alert('An error occurred while generating the UUID.');
         });
     });
     
-    // Copier l'UUID
+    // Copy UUID
     copyUuidBtn.addEventListener('click', function() {
         uuidResult.select();
         document.execCommand('copy');
-        showToast('UUID copié dans le presse-papiers');
+        showToast('UUID copied to clipboard');
     });
     
-    // Générer QR Code
+    // Generate QR Code
     generateQrBtn.addEventListener('click', function() {
         const uuid = uuidResult.value;
         if (!uuid) return;
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hashResult.style.display = 'none';
             codeResult.style.display = 'none';
             
-            // Configuration du bouton de téléchargement
+            // Download button configuration
             const downloadQrBtn = document.getElementById('download-qr');
             downloadQrBtn.onclick = function() {
                 const a = document.createElement('a');
@@ -110,11 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Une erreur est survenue lors de la génération du QR code.');
+            alert('An error occurred while generating the QR code.');
         });
     });
     
-    // Générer un hash
+    // Generate a hash
     document.getElementById('generate-hash-btn').addEventListener('click', function() {
         const uuid = uuidResult.value;
         const hashType = document.getElementById('hash-type').value;
@@ -134,17 +134,17 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Une erreur est survenue lors de la génération du hash.');
+            alert('An error occurred while generating the hash.');
         });
     });
     
-    // Afficher/masquer les sections de résultats
+    // Show/hide result sections
     generateHashBtn.addEventListener('click', function() {
         qrResult.style.display = 'none';
         hashResult.style.display = 'block';
         codeResult.style.display = 'none';
         
-        // Déclencher la génération de hash
+        // Trigger hash generation
         document.getElementById('generate-hash-btn').click();
     });
     
@@ -153,16 +153,16 @@ document.addEventListener('DOMContentLoaded', function() {
         hashResult.style.display = 'none';
         codeResult.style.display = 'block';
         
-        // Déclencher la génération de code
+        // Trigger code generation
         document.getElementById('generate-code-btn').click();
     });
     
-    // Copier le hash
+    // Copy the hash
     document.getElementById('copy-hash').addEventListener('click', function() {
         const hashValue = document.getElementById('hash-value');
         hashValue.select();
         document.execCommand('copy');
-        showToast('Hash copié dans le presse-papiers');
+        showToast('Hash copied to clipboard');
     });
     
     // Toast notification
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Style pour le toast
+    // Style for toast
     const style = document.createElement('style');
     style.textContent = `
         .toast {

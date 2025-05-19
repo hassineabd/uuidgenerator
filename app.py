@@ -12,7 +12,7 @@ import datetime
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Rate limiter pour l'API
+# Rate limiter for the API
 limiter = Limiter(
     get_remote_address,
     app=app,
@@ -20,7 +20,7 @@ limiter = Limiter(
     storage_uri="memory://",
 )
 
-# Ajouter le contexte global pour tous les templates
+# Add global context for all templates
 @app.context_processor
 def inject_now():
     return {'now': datetime.datetime.now()}
@@ -28,20 +28,20 @@ def inject_now():
 @app.route('/')
 def index():
     return render_template('index.html', 
-                          title=Config.SITE_TITLE,
-                          description=Config.SITE_DESCRIPTION)
+                          title="UUID Generator", 
+                          description="Generate UUIDs and GUIDs easily for your projects")
 
 @app.route('/bulk')
 def bulk():
     return render_template('bulk.html', 
-                          title="Générer des UUIDs en masse - " + Config.SITE_TITLE,
-                          description="Créez des milliers d'UUIDs en quelques secondes avec notre générateur en masse.")
+                          title="Generate Bulk UUIDs - " + Config.SITE_TITLE,
+                          description="Create thousands of UUIDs in seconds with our bulk generator.")
 
 @app.route('/api')
 def api_docs():
     return render_template('api.html', 
-                          title="API UUID - Documentation - " + Config.SITE_TITLE,
-                          description="Documentation de l'API gratuite pour générer des UUIDs programmatiquement.")
+                          title="UUID API - Documentation - " + Config.SITE_TITLE,
+                          description="Documentation for the free API to generate UUIDs programmatically.")
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -63,7 +63,7 @@ def generate_bulk():
     count = int(request.form.get('count', 10))
     uuid_type = request.form.get('type', 'v4')
     
-    # Limiter le nombre pour éviter les abus
+    # Limit the number to avoid abuse
     if count > 1000:
         count = 1000
     
@@ -89,7 +89,7 @@ def api_uuid():
     uuid_type = request.args.get('type', 'v4')
     count = int(request.args.get('count', 1))
     
-    # Limiter le nombre pour éviter les abus
+    # Limit the number to avoid abuse
     if count > 100:
         count = 100
     
