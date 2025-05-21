@@ -124,7 +124,12 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
     
-      gtag('config', 'G-8H3HVP8D5Z');
+      gtag('config', 'G-8H3HVP8D5Z', {
+        'consent_mode': 'advanced', // Enable advanced consent mode
+        'url_passthrough': true, // Preserve campaign info when consent is not granted
+        'ads_data_redaction': true, // Redact ad click identifiers when ad_storage is denied
+        'cookie_flags': 'SameSite=None;Secure' // Add secure cookie flags
+      });
     </script>
 </head>
 <body>

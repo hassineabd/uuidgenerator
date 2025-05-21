@@ -8,10 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.getElementById('close-cookie-modal');
     const cookieForm = document.getElementById('cookie-preferences-form');
     
+    // Initialize Google consent mode with default settings (all denied except for essential functionality)
+    initializeConsentMode();
+    
     // Check if user has already made cookie choices
     const hasConsent = getCookie('cookie_consent');
     if (!hasConsent) {
         showCookieConsent();
+    } else {
+        // Apply saved consent to Google's consent mode
+        applySavedConsent();
     }
     
     // Event listeners
@@ -89,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setCookie('cookie_consent', 'true', 365);
         setCookie('cookie_preferences', JSON.stringify(cookiePrefs), 365);
         
+        // Update Google's consent mode with user choices
+        updateConsentState(cookiePrefs);
+        
         // If analytics is accepted, initialize analytics
         if (cookiePrefs.analytics) {
             initializeAnalytics();
@@ -114,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setCookie('cookie_consent', 'true', 365);
         setCookie('cookie_preferences', JSON.stringify(cookiePrefs), 365);
         
+        // Update Google's consent mode with user choices
+        updateConsentState(cookiePrefs);
+        
         // Initialize services based on permissions
         if (cookiePrefs.analytics) {
             initializeAnalytics();
@@ -124,10 +136,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Helper function - Initialize analytics (placeholder)
+    // Initialize Google's consent mode with default values
+    function initializeConsentMode() {
+        // Default to everything denied until user gives consent
+        if (window.gtag) {
+            gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'analytics_storage': 'denied',
+                'functionality_storage': 'denied',
+                'personalization_storage': 'denied',
+                'security_storage': 'granted', // Security is always granted for site protection
+                'wait_for_update': 500 // Wait for user decision for 500ms
+            });
+        }
+    }
+    
+    // Update consent state based on user preferences
+    function updateConsentState(prefs) {
+        if (window.gtag) {
+            gtag('consent', 'update', {
+                'ad_storage': prefs.advertising ? 'granted' : 'denied',
+                'analytics_storage': prefs.analytics ? 'granted' : 'denied',
+                'functionality_storage': prefs.essential ? 'granted' : 'denied',
+                'personalization_storage': prefs.preferences ? 'granted' : 'denied',
+                'security_storage': 'granted'
+            });
+        }
+    }
+    
+    // Apply previously saved consent if available
+    function applySavedConsent() {
+        const prefsString = getCookie('cookie_preferences');
+        if (prefsString) {
+            try {
+                const prefs = JSON.parse(prefsString);
+                updateConsentState(prefs);
+            } catch (e) {
+                console.error('Error applying saved consent preferences', e);
+            }
+        }
+    }
+    
+    // Helper function - Initialize analytics
     function initializeAnalytics() {
-        // Here you would initialize your analytics tools like Google Analytics
-        console.log('Analytics initialized');
+        // Google Analytics is already initialized via the base.html script,
+        // we just need to ensure consent is properly updated
+        console.log('Analytics initialized with consent');
     }
     
     // Helper function - Initialize ads (placeholder)
@@ -194,6 +248,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (prefsString) {
         try {
             const prefs = JSON.parse(prefsString);
+            // Apply consent to Google Analytics
+            updateConsentState(prefs);
+            
             if (prefs.analytics) {
                 initializeAnalytics();
             }
