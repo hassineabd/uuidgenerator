@@ -124,7 +124,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'G-8H3HVP8D5Z', {
         'consent_mode': 'advanced', // Enable advanced consent mode
         'url_passthrough': true, // Preserve campaign info when consent is not granted
@@ -132,6 +132,8 @@
         'cookie_flags': 'SameSite=None;Secure' // Add secure cookie flags
       });
     </script>
+
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <header>
@@ -143,6 +145,7 @@
                     <li><a href="/bulk">Bulk Generation</a></li>
                     <li><a href="/decoder">UUID Decoder</a></li>
                     <li><a href="/api">API</a></li>
+                    <li><a href="{{ url_for('uuid_versions') }}">UUID Versions</a></li>
                     <li><a href="{{ url_for('uuidguide') }}">UUID Guide</a></li>
                     <li><a href="{{ url_for('developer') }}">Developer Corner</a></li>
                 </ul>
@@ -230,6 +233,7 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
     <script src="{{ url_for('static', filename='js/cookies.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
     <script>
         // Update current year
         const yearElement = document.getElementById('current-year');

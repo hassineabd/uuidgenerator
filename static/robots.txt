@@ -2,17 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/v1/
 
-# Allow Google to index everything
-User-agent: Googlebot
-Allow: /
-
-# Allow Bing to index everything
-User-agent: Bingbot
-Allow: /
-
-# Block archive.org bot from saving archives
-User-agent: archive.org_bot
-Disallow: /
-
-# Sitemap
-Sitemap: https://easyuuidgenerator.com/sitemap.xml 
+Sitemap: https://easyuuidgenerator.com/sitemap.xml

@@ -145,14 +145,25 @@ def api_decode_uuid():
 
 @app.route('/uuidguide')
 def uuidguide():
-    return render_template('uuidguide.html', 
+    return render_template('uuidguide.html',
                           title="Understanding UUID - Universal Unique Identifiers - " + Config.SITE_TITLE,
                           description="Comprehensive guide to Universal Unique Identifiers (UUID): types, generation, security, applications, and best practices for developers and tech professionals.",
                           schema_type="WebPage")
 
+@app.route('/uuid-versions')
+def uuid_versions():
+    return render_template(
+        'uuid_versions.html',
+        title="UUID Versions Explained - Differences Between v1, v3, v4, v5 and GUID",
+        description="Compare UUID versions side-by-side, understand how they work, and learn the best way to generate the right identifier for your project.",
+        schema_type="TechArticle",
+        canonical_url="https://easyuuidgenerator.com/uuid-versions",
+        keywords="uuid versions, uuid v1 vs v4, uuid comparison, best uuid version"
+    )
+
 @app.route('/developer')
 def developer():
-    return render_template('developer.html', 
+    return render_template('developer.html',
                           title="Developer Corner - UUID Implementation - " + Config.SITE_TITLE,
                           description="Learn how to implement UUID generation in different programming languages with code examples and best practices.",
                           task={'title': 'Titre par défaut'})

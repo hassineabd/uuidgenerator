@@ -1,15 +1,58 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I generate deterministic UUIDs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Select UUID version 5, provide a stable namespace and name, and our generator will create the same identifier every time—perfect for content addressing and configuration files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I create thousands of UUIDs in one batch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The bulk UUID generator lets you export up to 1,000 identifiers per request in CSV-ready format so you can seed databases, QA environments, or analytics experiments effortlessly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you log or store generated UUIDs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. UUIDs are generated in-memory and returned directly to your browser or API client, keeping sensitive identifiers private to your systems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there an API rate limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our free API supports generous burst usage with protection against abuse. Each IP can request up to 100 UUID API calls per day—perfect for prototypes and internal tools."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <section class="hero">
     <h1>UUID Generator Online</h1>
-    <p>Generate secure, unique identifiers instantly for your applications and databases</p>
+    <p>Generate RFC 4122 compliant UUIDs and GUIDs instantly—single, bulk, or via our free developer API.</p>
 </section>
 
 <section class="uuid-generator">
     <div class="card">
         <h2>Generate a UUID</h2>
-        
+
         <form id="uuid-form">
             <div class="form-group">
                 <label for="uuid-type">
@@ -30,7 +73,7 @@
                     <option value="guid">GUID (Windows format)</option>
                 </select>
             </div>
-            
+
             <div class="form-group v5-options" style="display: none;">
                 <label for="namespace">
                     Namespace:
@@ -42,7 +85,7 @@
                     </div>
                 </label>
                 <input type="text" id="namespace" name="namespace" placeholder="e.g.: URL, DNS, or a custom UUID">
-                
+
                 <label for="name">
                     Name:
                     <div class="tooltip-container">
@@ -54,7 +97,7 @@
                 </label>
                 <input type="text" id="name" name="name" placeholder="e.g.: example.com">
             </div>
-            
+
             <div class="form-group">
                 <label for="prefix">
                     Prefix (optional):
@@ -66,7 +109,7 @@
                     </div>
                 </label>
                 <input type="text" id="prefix" name="prefix" placeholder="e.g.: my-prefix-">
-                
+
                 <label for="suffix">
                     Suffix (optional):
                     <div class="tooltip-container">
@@ -78,29 +121,29 @@
                 </label>
                 <input type="text" id="suffix" name="suffix" placeholder="e.g.: -suffix">
             </div>
-            
+
             <button type="submit" class="btn">Generate UUID</button>
         </form>
-        
+
         <div id="result" class="result">
             <h3>Result:</h3>
             <div class="uuid-display">
                 <input type="text" id="uuid-result" readonly>
                 <button id="copy-uuid" class="btn-small">Copy</button>
             </div>
-            
+
             <div class="result-actions">
                 <button id="generate-qr" class="btn-action">QR Code</button>
                 <button id="generate-hash" class="btn-action">Hash</button>
                 <button id="show-code" class="btn-action">Code</button>
             </div>
-            
+
             <div id="qr-result" style="display: none;">
                 <h4>QR Code:</h4>
                 <div id="qr-image"></div>
                 <button id="download-qr" class="btn-small">Download</button>
             </div>
-            
+
             <div id="hash-result" style="display: none;">
                 <h4>Hash:</h4>
                 <div class="hash-options">
@@ -117,7 +160,7 @@
                     <button id="copy-hash" class="btn-small">Copy</button>
                 </div>
             </div>
-            
+
             <div id="code-result" style="display: none;">
                 <h4>Code:</h4>
                 <div class="code-options">
@@ -222,123 +265,86 @@
     </div>
 </section>
 
-<style>
-    .tooltip-container {
-        position: relative;
-        display: inline-block;
-        margin-left: 5px;
-    }
-    
-    .info-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background-color: #3498db;
-        color: white;
-        font-size: 12px;
-        cursor: help;
-    }
-    
-    .tooltip-text {
-        visibility: hidden;
-        width: 250px;
-        background-color: #333;
-        color: #fff;
-        text-align: left;
-        border-radius: 6px;
-        padding: 10px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        transform: translateX(-50%);
-        opacity: 0;
-        transition: opacity 0.3s;
-        font-size: 14px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    .tooltip-container:hover .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-    }
-    
-    /* Flèche du tooltip */
-    .tooltip-text::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #333 transparent transparent transparent;
-    }
+<section class="learning-hub">
+    <h2>Explore More UUID Resources</h2>
+    <p>Master every stage of identifier management with deep dives, tutorials, and practical playbooks prepared by our engineering team.</p>
+    <div class="learning-grid">
+        <article class="learning-card">
+            <h3>UUID Version Deep Dive</h3>
+            <p>Compare generation strategies, collision probabilities, and migration tips for every UUID variant.</p>
+            <a class="resource-link" href="{{ url_for('uuid_versions') }}">Read the comparison →</a>
+        </article>
+        <article class="learning-card">
+            <h3>Hands-on Developer Guide</h3>
+            <p>Follow language-specific tutorials that show how to integrate UUID creation into production pipelines.</p>
+            <a class="resource-link" href="{{ url_for('developer') }}">Open the developer corner →</a>
+        </article>
+        <article class="learning-card">
+            <h3>UUID Fundamentals</h3>
+            <p>Understand UUID anatomy, version rules, and security considerations in plain language.</p>
+            <a class="resource-link" href="{{ url_for('uuidguide') }}">Start with the UUID guide →</a>
+        </article>
+    </div>
+</section>
 
-    /* Styles for new sections */
-    .uuid-applications, .uuid-best-practices {
-        margin: 3rem 0;
-    }
+<section class="how-to-section">
+    <h2>How to Integrate UUID Generation in Under 5 Minutes</h2>
+    <ol class="how-to-steps">
+        <li>
+            <h3>Pick Your Format</h3>
+            <p>Select v1, v4, v5, or GUID depending on whether you need ordering, randomness, or deterministic values.</p>
+        </li>
+        <li>
+            <h3>Generate &amp; Export</h3>
+            <p>Create identifiers directly in the browser or call our <a href="{{ url_for('api_docs') }}">REST API</a> from CI/CD jobs.</p>
+        </li>
+        <li>
+            <h3>Enrich with Extras</h3>
+            <p>Convert UUIDs into QR codes or cryptographic hashes so teams across operations can use them immediately.</p>
+        </li>
+    </ol>
+</section>
 
-    .applications-container {
-        display: flex;
-        gap: 2rem;
-    }
+<section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>How do deterministic UUIDs work?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Deterministic UUIDs use a namespace and input string to produce the same identifier on every run. Choose version 5, enter your namespace (DNS, URL, or custom), and the generator will hash the value using SHA-1.</p>
+            </div>
+        </article>
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>What is the bulk generator limit?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>You can create up to 1,000 UUIDs per batch online. Need more? Use the API endpoint with pagination to stream unlimited identifiers into your workflow.</p>
+            </div>
+        </article>
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>Is my UUID data stored or shared?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>No data is persisted. Results render directly in your browser and API responses are stateless, so your identifiers remain private to your infrastructure.</p>
+            </div>
+        </article>
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>Can I access the generator programmatically?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Yes. Our <a href="{{ url_for('api_docs') }}">API documentation</a> includes ready-to-use examples so you can fetch UUIDs from serverless functions, backend services, or low-code automation tools.</p>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
 
-    .application-column {
-        flex: 1;
-    }
-
-    .application-card, .best-practice {
-        background-color: var(--card-bg);
-        border-radius: 8px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .application-card h3, .best-practice h3 {
-        color: var(--primary-color);
-        margin-top: 0;
-        margin-bottom: 0.75rem;
-    }
-
-    .application-card p, .best-practice p {
-        margin: 0;
-        line-height: 1.6;
-    }
-
-    .best-practices-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    @media (max-width: 768px) {
-        .applications-container {
-            flex-direction: column;
-        }
-    }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const uuidTypeSelect = document.getElementById('uuid-type');
-    const namespaceContainer = document.getElementById('namespaceContainer');
-    const nameContainer = document.getElementById('nameContainer');
-    
-    uuidTypeSelect.addEventListener('change', function() {
-        if (this.value === 'v5') {
-            namespaceContainer.style.display = 'block';
-            nameContainer.style.display = 'block';
-        } else {
-            namespaceContainer.style.display = 'none';
-            nameContainer.style.display = 'none';
-        }
-    });
-});
-</script>
-{% endblock %} 

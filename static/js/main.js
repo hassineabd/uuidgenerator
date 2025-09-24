@@ -201,6 +201,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // FAQ accordion behaviour
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach((question) => {
+        question.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', (!isExpanded).toString());
+            const answer = this.nextElementSibling;
+            if (answer) {
+                answer.hidden = isExpanded;
+            }
+        });
+    });
+
     // Toast notification
     function showToast(message) {
         const toast = document.createElement('div');

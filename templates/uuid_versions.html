@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "UUID Versions Explained: Differences Between v1, v3, v4, v5 and GUID",
+  "description": "Learn how UUID versions differ, when to use each option, and how to implement the right identifier in your applications.",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://easyuuidgenerator.com/uuid-versions"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Easy UUID Generator"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Easy UUID Generator",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://easyuuidgenerator.com{{ config.SITE_IMAGE }}"
+    }
+  },
+  "dateModified": "{{ now.strftime('%Y-%m-%d') }}",
+  "keywords": "uuid versions, uuid comparison, uuid v1 vs v4, uuid guide, guid vs uuid",
+  "image": "https://easyuuidgenerator.com{{ config.SITE_IMAGE }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are the main differences between UUID versions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Version 1 UUIDs are time-based, Version 3 and 5 use hashing of names and namespaces, Version 4 relies on random numbers, and Microsoft GUIDs follow a layout compatible with UUID v4 but include specific formatting variations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I choose UUID v5 over UUID v3?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UUID v5 uses SHA-1 while v3 uses MD5 hashing. Choose UUID v5 when you need deterministic identifiers with a stronger hashing algorithm or when you want to align with the latest RFC 4122 recommendations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are GUIDs and UUIDs interchangeable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GUIDs are Microsoft's implementation of UUIDs. They follow the UUID v4 structure with slight byte-order differences in certain APIs. In most application-level scenarios, GUIDs can be treated as UUIDs as long as you account for formatting differences."
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <h1>UUID Versions Explained</h1>
+    <p>Understand how UUID v1, v3, v4, v5, and GUID differ so you can pick the most reliable identifier strategy for your workloads.</p>
+    <div class="cta-row">
+        <a class="btn" href="{{ url_for('index') }}">Generate a UUID Now</a>
+        <a class="btn-secondary" href="{{ url_for('uuidguide') }}">Read the Full UUID Guide</a>
+    </div>
+</section>
+
+<section class="comparison-section">
+    <h2>Side-by-Side Comparison of UUID Versions</h2>
+    <p>This table summarizes how each UUID version is generated, what guarantees it provides, and when it should be the default choice for your engineering teams.</p>
+    <div class="table-wrapper">
+        <table class="uuid-comparison-table" aria-label="UUID version comparison table">
+            <thead>
+                <tr>
+                    <th scope="col">Version</th>
+                    <th scope="col">Generation Method</th>
+                    <th scope="col">Ideal Use Cases</th>
+                    <th scope="col">Key Considerations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">UUID v1</th>
+                    <td>Timestamp + node identifier (typically MAC address)</td>
+                    <td>Event ordering, logging pipelines, distributed databases needing chronological keys</td>
+                    <td>Leaked MAC address can expose infrastructure; ordering is only loosely sequential.</td>
+                </tr>
+                <tr>
+                    <th scope="row">UUID v3</th>
+                    <td>MD5 hash of namespace and name combination</td>
+                    <td>Legacy integrations or deterministic IDs in systems locked to MD5</td>
+                    <td>MD5 is cryptographically broken; upgrade to v5 when possible.</td>
+                </tr>
+                <tr>
+                    <th scope="row">UUID v4</th>
+                    <td>Random numbers sourced from a secure random generator</td>
+                    <td>Most application IDs, public URLs, identifiers requiring low collision probability</td>
+                    <td>Cannot be reproduced; ensure strong randomness source for true uniqueness.</td>
+                </tr>
+                <tr>
+                    <th scope="row">UUID v5</th>
+                    <td>SHA-1 hash of namespace and name</td>
+                    <td>Deterministic IDs for URLs, assets, or configuration values shared across systems</td>
+                    <td>Deterministic but not secret; avoid exposing sensitive input data.</td>
+                </tr>
+                <tr>
+                    <th scope="row">GUID</th>
+                    <td>Microsoft implementation of UUID (usually v4 layout)</td>
+                    <td>.NET, SQL Server, and Windows tooling compatibility</td>
+                    <td>Byte ordering differs when represented in certain APIs—normalize when exchanging with non-Microsoft systems.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="decision-framework">
+    <h2>How to Choose the Right UUID Strategy</h2>
+    <div class="decision-grid">
+        <article class="decision-card">
+            <h3>Need Predictable Identifiers?</h3>
+            <p>Select <strong>UUID v5</strong> with a stable namespace so every service derives the same value from the same inputs.</p>
+            <p class="tip">Tip: pair with our <a href="{{ url_for('decoder') }}">UUID decoder</a> to verify version information instantly.</p>
+        </article>
+        <article class="decision-card">
+            <h3>Prefer Maximum Entropy?</h3>
+            <p><strong>UUID v4</strong> should be your default for public identifiers, session tracking, and URLs that must resist guessing.</p>
+            <p class="tip">Use the <a href="{{ url_for('bulk') }}">bulk UUID generator</a> to pre-create thousands of tokens in one click.</p>
+        </article>
+        <article class="decision-card">
+            <h3>Optimizing for Sorting?</h3>
+            <p><strong>UUID v1</strong> preserves timestamp ordering, which helps keep insert performance stable in time-series databases.</p>
+            <p class="tip">Combine with database-specific UUID column types for better indexing and storage efficiency.</p>
+        </article>
+    </div>
+</section>
+
+<section class="code-examples">
+    <h2>Implementation Examples</h2>
+    <p>Use these snippets to generate UUIDs in your favorite languages. They mirror the responses returned by our <a href="{{ url_for('api_docs') }}">free UUID API</a>.</p>
+    <div class="code-grid">
+        <pre><code class="language-python">import uuid
+
+# Generate a random UUID (v4)
+random_id = uuid.uuid4()
+
+# Deterministic UUID (v5) using DNS namespace
+namespaced_id = uuid.uuid5(uuid.NAMESPACE_DNS, "app.easyuuidgenerator.com")
+</code></pre>
+        <pre><code class="language-javascript">import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+
+const randomId = uuidv4();
+const deterministicId = uuidv5('app.easyuuidgenerator.com', uuidv5.DNS);
+</code></pre>
+    </div>
+    <p class="code-note">Prefer a hosted approach? Make a GET request to <code>{{ url_for('api_uuid', _external=True) }}?type=v4&amp;count=5</code> to retrieve five random UUIDs in JSON.</p>
+</section>
+
+<section class="related-resources">
+    <h2>Build Your UUID Toolkit</h2>
+    <div class="resource-grid">
+        <article class="resource-card">
+            <h3>Generator &amp; Enhancer</h3>
+            <p>Create single or bulk UUIDs, then enrich them with QR codes and hashes from one unified interface.</p>
+            <a class="resource-link" href="{{ url_for('index') }}">Go to UUID Generator →</a>
+        </article>
+        <article class="resource-card">
+            <h3>UUID Decoder</h3>
+            <p>Paste any UUID to reveal its version, variant, embedded timestamp, and potential namespace information.</p>
+            <a class="resource-link" href="{{ url_for('decoder') }}">Inspect a UUID →</a>
+        </article>
+        <article class="resource-card">
+            <h3>Developer API</h3>
+            <p>Integrate UUID creation directly into pipelines with rate-limited REST endpoints ready for production.</p>
+            <a class="resource-link" href="{{ url_for('api_docs') }}">Explore API Docs →</a>
+        </article>
+    </div>
+</section>
+
+<section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>Does UUID version impact database performance?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Yes. UUID v1 maintains partial ordering which keeps clustered indexes healthier in write-heavy databases. Random v4 UUIDs may cause page splits if you insert millions of rows per hour—mitigate by using sequential UUID variants or employing database-specific UUID column types.</p>
+            </div>
+        </article>
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>Can UUIDs collide in real-world applications?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>The collision probability for properly generated UUID v4 values is astronomically low. Still, run validation in mission-critical systems and monitor insert failures so you can detect any RNG misconfiguration early.</p>
+            </div>
+        </article>
+        <article class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+                <span>How do I migrate from GUIDs to UUIDs?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+                <p>Because GUIDs adhere to the UUID spec, most migrations involve reformatting byte order and ensuring string casing consistency. Update your application layer to accept canonical UUID strings (<code>8-4-4-4-12</code>) and normalize values before storing them.</p>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
+
