@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="yandex-verification" content="cebf962c7bb0cf78" />
+    <meta name="description" content="{{ description }}">
+    {% if keywords is defined %}
+    <meta name="keywords" content="{{ keywords }}">
+    {% else %}
+    <meta name="keywords" content="{{ config.SITE_KEYWORDS }}">
+    {% endif %}
+    <title>{{ title }} | Free UUID Generator Online</title>
+    
+    <!-- Favicons and Mobile Web App -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favico/favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favico/favicon.svg') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='images/favico/favicon-96x96.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favico/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/favico/site.webmanifest') }}">
+    <meta name="theme-color" content="#4a6cf7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="UUID Generator">
+    <meta name="application-name" content="UUID Generator">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="UUID Generator Tool">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css') }}" id="theme-css">
+    
+    <!-- Monetag Ad Code -->
+    {% if config.MONETAG_ID %}
+    <script type="text/javascript">
+        var monetag_id = "{{ config.MONETAG_ID }}";
+        document.write('<scr'+'ipt src="//'+monetag_id+'.jsdelivr.net/gh/monesecorg/monetag@latest/dist/monetag.min.js" async><'+'/scr'+'ipt>');
+    </script>
+    {% endif %}
+
+    <!-- Meta tags canonique et langue -->
+    {% if canonical_url is defined %}
+    <link rel="canonical" href="{{ canonical_url }}" />
+    {% else %}
+    <link rel="canonical" href="https://easyuuidgenerator.com{{ request.path }}" />
+    {% endif %}
+    <meta name="language" content="English">
+    <meta property="og:locale" content="{{ config.PRIMARY_LOCALE }}">
+    {% for locale in config.ALTERNATE_LOCALES %}
+    <meta property="og:locale:alternate" content="{{ locale }}">
+    {% endfor %}
+    
+    <!-- Open Graph tags pour les réseaux sociaux -->
+    <meta property="og:site_name" content="Easy UUID Generator">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="https://easyuuidgenerator.com{{ request.path }}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://easyuuidgenerator.com{{ config.SITE_IMAGE }}">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:image" content="https://easyuuidgenerator.com{{ config.SITE_IMAGE }}">
+    {% if config.SITE_TWITTER %}
+    <meta name="twitter:site" content="{{ config.SITE_TWITTER }}">
+    {% endif %}
+    
+    <!-- Schema.org structured data for better Google results -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "{{ schema_type|default(config.SCHEMA_TYPE) }}",
+        "name": "{{ config.SCHEMA_NAME }}",
+        "description": "{{ config.SCHEMA_DESCRIPTION }}",
+        "url": "https://easyuuidgenerator.com{{ request.path }}",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        {% if last_updated is defined %}
+        "dateModified": "{{ last_updated }}",
+        {% endif %}
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    {% if request.path != '/' %}
+    <!-- Breadcrumb structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://easyuuidgenerator.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ title.split(' - ')[0] }}",
+                "item": "https://easyuuidgenerator.com{{ request.path }}"
+            }
+        ]
+    }
+    </script>
+    {% endif %}
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8H3HVP8D5Z"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-8H3HVP8D5Z', {
+        'consent_mode': 'advanced', // Enable advanced consent mode
+        'url_passthrough': true, // Preserve campaign info when consent is not granted
+        'ads_data_redaction': true, // Redact ad click identifiers when ad_storage is denied
+        'cookie_flags': 'SameSite=None;Secure' // Add secure cookie flags
+      });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="/">UUID Generator</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/bulk">Bulk Generation</a></li>
+                    <li><a href="/decoder">UUID Decoder</a></li>
+                    <li><a href="/api">API</a></li>
+                    <li><a href="{{ url_for('uuidguide') }}">UUID Guide</a></li>
+                    <li><a href="{{ url_for('developer') }}">Developer Corner</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle">Dark Mode</button>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="current-year">2024</span> UUID Generator. Easily create UUIDs, GUIDs and QR codes.</p>
+            <div class="footer-links">
+                <a href="{{ url_for('terms') }}">Terms & Conditions</a>
+                <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+                <a href="{{ url_for('cookies') }}">Cookie Policy</a>
+                <a href="#" id="footer-cookie-settings">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" class="cookie-consent hidden">
+        <div class="cookie-text">
+            <p>We use cookies to enhance your experience on our website. By continuing to use our site, you consent to our use of cookies. To learn more, please read our <a href="{{ url_for('cookies') }}">Cookie Policy</a>.</p>
+        </div>
+        <div class="cookie-buttons">
+            <button id="cookie-settings" class="cookie-btn cookie-btn-settings">Cookie Settings</button>
+            <button id="accept-all-cookies" class="cookie-btn cookie-btn-accept">Accept All</button>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookie-modal" class="cookie-modal">
+        <div class="cookie-modal-content">
+            <div class="cookie-modal-header">
+                <h2>Cookie Preferences</h2>
+                <button id="close-cookie-modal" class="cookie-modal-close">×</button>
+            </div>
+            <p>Manage your cookie preferences. Essential cookies cannot be disabled as they are necessary for the website to function.</p>
+            
+            <form id="cookie-preferences-form">
+                <div class="cookie-setting cookie-setting-essential">
+                    <div>
+                        <strong>Essential Cookies</strong>
+                        <p>Necessary for the website to function properly.</p>
+                    </div>
+                    <input type="checkbox" checked disabled>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Preference Cookies</strong>
+                        <p>Store your preferences like dark mode.</p>
+                    </div>
+                    <input type="checkbox" name="preferences" checked>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Analytics Cookies</strong>
+                        <p>Help us understand how visitors interact with our website.</p>
+                    </div>
+                    <input type="checkbox" name="analytics" checked>
+                </div>
+                
+                <div class="cookie-setting">
+                    <div>
+                        <strong>Advertising Cookies</strong>
+                        <p>Used to provide you with relevant ads and measure their effectiveness.</p>
+                    </div>
+                    <input type="checkbox" name="advertising" checked>
+                </div>
+                
+                <div class="cookie-modal-footer">
+                    <button type="button" id="save-cookie-settings" class="cookie-btn cookie-btn-accept">Save Preferences</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/code-generator.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cookies.js') }}"></script>
+    <script>
+        // Update current year
+        const yearElement = document.getElementById('current-year');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html> 

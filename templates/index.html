@@ -1,0 +1,346 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>UUID Generator Online</h1>
+    <p>Generate secure, unique identifiers instantly for your applications and databases</p>
+</section>
+
+<section class="uuid-generator">
+    <div class="card">
+        <h2>Generate a UUID</h2>
+        
+        <form id="uuid-form">
+            <div class="form-group">
+                <label for="uuid-type">
+                    UUID Type:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            <strong>UUID v1:</strong> Time-based UUID generated using timestamp and MAC address.<br>
+                            <strong>UUID v4:</strong> Random UUID, most commonly used for its uniqueness.<br>
+                            <strong>UUID v5:</strong> Name-based UUID generated using SHA-1 hash of a namespace and name.<br>
+                            <strong>UUID v7:</strong> Time-ordered UUID using Unix timestamp (millis) + randomness.
+                        </span>
+                    </div>
+                </label>
+                <select id="uuid-type" name="type">
+                    <option value="v4">UUID v4 (random)</option>
+                    <option value="v1">UUID v1 (time-based)</option>
+                    <option value="v7">UUID v7 (time-ordered)</option>
+                    <option value="v5">UUID v5 (name-based)</option>
+                    <option value="guid">GUID (Windows format)</option>
+                </select>
+            </div>
+            
+            <div class="form-group v5-options" style="display: none;">
+                <label for="namespace">
+                    Namespace:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            A UUID namespace for v5 generation. You can use standard namespaces (URL, DNS, OID, X500) or any valid UUID.
+                        </span>
+                    </div>
+                </label>
+                <input type="text" id="namespace" name="namespace" placeholder="e.g.: URL, DNS, or a custom UUID">
+                
+                <label for="name">
+                    Name:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            A string value that will be hashed with the namespace to create a v5 UUID. This could be a domain name, URL, or any string.
+                        </span>
+                    </div>
+                </label>
+                <input type="text" id="name" name="name" placeholder="e.g.: example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="prefix">
+                    Prefix (optional):
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            Add text before the UUID. Useful for system identifiers, application prefixes, or categorization.
+                        </span>
+                    </div>
+                </label>
+                <input type="text" id="prefix" name="prefix" placeholder="e.g.: my-prefix-">
+                
+                <label for="suffix">
+                    Suffix (optional):
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            Add text after the UUID. Useful for versioning, environment tags, or additional metadata.
+                        </span>
+                    </div>
+                </label>
+                <input type="text" id="suffix" name="suffix" placeholder="e.g.: -suffix">
+            </div>
+            
+            <button type="submit" class="btn">Generate UUID</button>
+        </form>
+        
+        <div id="result" class="result">
+            <h3>Result:</h3>
+            <div class="uuid-display">
+                <input type="text" id="uuid-result" readonly>
+                <button id="copy-uuid" class="btn-small">Copy</button>
+            </div>
+            
+            <div class="result-actions">
+                <button id="generate-qr" class="btn-action">QR Code</button>
+                <button id="generate-hash" class="btn-action">Hash</button>
+                <button id="show-code" class="btn-action">Code</button>
+            </div>
+            
+            <div id="qr-result" style="display: none;">
+                <h4>QR Code:</h4>
+                <div id="qr-image"></div>
+                <button id="download-qr" class="btn-small">Download</button>
+            </div>
+            
+            <div id="hash-result" style="display: none;">
+                <h4>Hash:</h4>
+                <div class="hash-options">
+                    <select id="hash-type">
+                        <option value="md5">MD5</option>
+                        <option value="sha1">SHA-1</option>
+                        <option value="sha256">SHA-256</option>
+                        <option value="sha512">SHA-512</option>
+                    </select>
+                    <button id="generate-hash-btn" class="btn-small">Generate</button>
+                </div>
+                <div class="uuid-display">
+                    <input type="text" id="hash-value" readonly>
+                    <button id="copy-hash" class="btn-small">Copy</button>
+                </div>
+            </div>
+            
+            <div id="code-result" style="display: none;">
+                <h4>Code:</h4>
+                <div class="code-options">
+                    <select id="code-language">
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                    </select>
+                    <button id="generate-code-btn" class="btn-small">Generate</button>
+                </div>
+                <pre id="code-snippet"><code></code></pre>
+                <button id="copy-code" class="btn-small">Copy Code</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2>Powerful UUID Generation Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Multiple UUID Standards</h3>
+            <p>Generate UUIDs according to modern standards: Version 1 (time-based), Version 4 (random), Version 5 (name-based), Version 7 (time-ordered, RFC 9562), and Microsoft GUID format.</p>
+        </div>
+        <div class="feature-card">
+            <h3>High-Performance Bulk Generation</h3>
+            <p>Create up to 1,000 UUIDs simultaneously with our optimized generator. Perfect for database seeding, testing, and large-scale application needs.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Advanced QR Code Integration</h3>
+            <p>Convert any UUID to a scannable QR code with one click. Download high-resolution QR codes for use in documentation, inventory systems, or asset tracking.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Developer-Friendly API</h3>
+            <p>Integrate UUID generation directly into your applications with our free, RESTful API. Supports all UUID versions with flexible response formats.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Customizable Identifiers</h3>
+            <p>Add custom prefixes and suffixes to your UUIDs to create domain-specific identifiers that maintain global uniqueness while adding context.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Comprehensive UUID Analysis</h3>
+            <p>Decode and inspect any UUID to understand its version, components, timestamp data, and variant information with our powerful decoder tool.</p>
+        </div>
+    </div>
+</section>
+
+<section class="uuid-applications">
+    <h2>UUID Applications Across Industries</h2>
+    <div class="applications-container">
+        <div class="application-column">
+            <div class="application-card">
+                <h3>Database Systems</h3>
+                <p>UUIDs are ideal primary keys in distributed database systems, eliminating synchronization requirements when generating unique identifiers across multiple servers or microservices.</p>
+            </div>
+            <div class="application-card">
+                <h3>Web Development</h3>
+                <p>Modern web applications use UUIDs for secure, unpredictable identifiers in URLs, session tokens, and content management systems to prevent enumeration attacks.</p>
+            </div>
+            <div class="application-card">
+                <h3>Cloud Computing</h3>
+                <p>Cloud infrastructures rely on UUIDs to track virtual machines, storage volumes, and network interfaces across distributed systems without central coordination.</p>
+            </div>
+        </div>
+        <div class="application-column">
+            <div class="application-card">
+                <h3>IoT Devices</h3>
+                <p>Internet of Things ecosystems use UUIDs to assign persistent identities to devices, sensors, and data streams, enabling reliable device recognition across networks.</p>
+            </div>
+            <div class="application-card">
+                <h3>Healthcare Systems</h3>
+                <p>Healthcare applications implement UUIDs to create globally unique medical record identifiers while maintaining patient privacy and enabling secure data exchange.</p>
+            </div>
+            <div class="application-card">
+                <h3>Gaming Platforms</h3>
+                <p>Online gaming platforms generate UUIDs for player accounts, game instances, and in-game items to ensure uniqueness in high-volume, distributed gaming environments.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="uuid-best-practices">
+    <h2>UUID Implementation Best Practices</h2>
+    <div class="best-practices-container">
+        <div class="best-practice">
+            <h3>When to Use UUID Version 4</h3>
+            <p>UUID v4 (random) is ideal when you need maximum unpredictability and have no requirements for sequential ordering or timestamp information. Best for public-facing identifiers and security-sensitive applications.</p>
+        </div>
+        <div class="best-practice">
+            <h3>When to Use UUID Version 1</h3>
+            <p>UUID v1 (time-based) works best when you need chronological ordering capability or time tracking within the identifier itself. Useful for logging systems and time-sequence dependent operations.</p>
+        </div>
+        <div class="best-practice">
+            <h3>When to Use UUID Version 5</h3>
+            <p>UUID v5 (name-based) is perfect when you need deterministic, reproducible identifiers based on known information. Ideal for content addressing, URL mapping, and consistent identification of well-known resources.</p>
+        </div>
+        <div class="best-practice">
+            <h3>Database Storage Optimization</h3>
+            <p>When storing UUIDs in databases, use dedicated UUID data types when available for optimal performance. For databases without native UUID support, consider binary storage formats to save space.</p>
+        </div>
+    </div>
+</section>
+
+<style>
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+        margin-left: 5px;
+    }
+    
+    .info-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: #3498db;
+        color: white;
+        font-size: 12px;
+        cursor: help;
+    }
+    
+    .tooltip-text {
+        visibility: hidden;
+        width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 14px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .tooltip-container:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    /* Flèche du tooltip */
+    .tooltip-text::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent;
+    }
+
+    /* Styles for new sections */
+    .uuid-applications, .uuid-best-practices {
+        margin: 3rem 0;
+    }
+
+    .applications-container {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .application-column {
+        flex: 1;
+    }
+
+    .application-card, .best-practice {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .application-card h3, .best-practice h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+
+    .application-card p, .best-practice p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .best-practices-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .applications-container {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uuidTypeSelect = document.getElementById('uuid-type');
+    const namespaceContainer = document.getElementById('namespaceContainer');
+    const nameContainer = document.getElementById('nameContainer');
+    
+    uuidTypeSelect.addEventListener('change', function() {
+        if (this.value === 'v5') {
+            namespaceContainer.style.display = 'block';
+            nameContainer.style.display = 'block';
+        } else {
+            namespaceContainer.style.display = 'none';
+            nameContainer.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,76 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Flask instance folder
+instance/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Local development configuration
+.env
+.flaskenv
+dev_config.py
+
+# Generated files
+static/images/qr_codes/*
+!static/images/qr_codes/.gitkeep
+static/images/uuid-generator-preview.png
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Generated UUID lists
+*.uuid
+*.txt
+*.csv
+*.json
+!requirements.txt
+!structure.txt
+
+# Web related
+node_modules/
+*.min.js
+*.min.css
+
+# Other
+.monetag.json 

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <h1 id="terms-and-conditions">Terms</h1>
+    <p>Last updated: {{ now.strftime('%B %d, %Y') }}</p>
+
+    <div class="policy-index">
+        <h2>Contents</h2>
+        <ol>
+            <li><a href="#use-of-service">What you can do</a></li>
+            <li><a href="#api-usage">API</a></li>
+            <li><a href="#warranties">No warranties</a></li>
+            <li><a href="#liability">Liability</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#changes">Changes</a></li>
+            <li><a href="#open-source">Open source</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ol>
+    </div>
+
+    <div class="terms-container">
+        <p>Hey! This is a simple, open-source UUID generator. By using the site, you agree to these basics:</p>
+
+        <h2 id="use-of-service">What you can do</h2>
+        <ul>
+            <li>Use the tool for development, testing, learning, and other legit purposes.</li>
+            <li>Don’t abuse the service, attack it, or try to break it.</li>
+        </ul>
+
+        <h2 id="api-usage">API</h2>
+        <ul>
+            <li>Please respect our rate limits ({{ config.API_RATE_LIMIT }}). We may block abusive traffic.</li>
+            <li>Uptime is best-effort for the free API.</li>
+            <li>See the <a href="{{ url_for('api_docs') }}">API page</a> for details.</li>
+        </ul>
+
+        <h2 id="warranties">No warranties</h2>
+        <p>The site is provided “as is”. We don’t promise it will always be available or error-free.</p>
+
+        <h2 id="liability">Liability</h2>
+        <p>We’re not liable for any damages from using (or not being able to use) the site.</p>
+
+        <h2 id="privacy">Privacy</h2>
+        <p>Check our <a href="{{ url_for('privacy') }}">Privacy Policy</a> and <a href="{{ url_for('cookies') }}">Cookie Policy</a> to see what we collect and why.</p>
+
+        <h2 id="changes">Changes</h2>
+        <p>We may update these terms. When we do, the date above will change.</p>
+
+        <h2 id="open-source">Open source</h2>
+        <p>This project is open-source on GitHub — contributions are welcome!
+           <a href="https://github.com/abdelkaderhassine/udidgen" target="_blank" rel="noopener noreferrer">Star or contribute on GitHub</a>.</p>
+
+        <h2 id="contact">Contact</h2>
+        <p><a href="mailto:contact@easyuuidgenerator.com">contact@easyuuidgenerator.com</a></p>
+
+        <div class="related-info">
+            <h3>Helpful links</h3>
+            <ul>
+                <li><a href="{{ url_for('privacy') }}">Privacy Policy</a></li>
+                <li><a href="{{ url_for('cookies') }}">Cookie Policy</a></li>
+                <li><a href="{{ url_for('developer') }}">Developer Corner</a></li>
+                <li><a href="{{ url_for('uuidguide') }}">UUID Guide</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %} 

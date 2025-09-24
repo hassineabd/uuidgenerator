@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>About the UUID Generator</h1>
+    <p>A simple tool for all your UUID needs</p>
+</section>
+
+<section class="about-content">
+    <div class="card">
+        <h2>What is a UUID?</h2>
+        <p>A UUID (Universally Unique Identifier) is a standardized 128-bit identifier that guarantees uniqueness across space and time. UUIDs are widely used in computing to uniquely identify information without requiring central coordination.</p>
+        
+        <p>UUIDs are represented as 36-character strings (32 hexadecimal characters and 4 hyphens) like this:</p>
+        <pre><code>550e8400-e29b-11d4-a716-446655440000</code></pre>
+        
+        <h3>Types of UUIDs</h3>
+        <ul>
+            <li><strong>UUID v1</strong> - Based on time and MAC address</li>
+            <li><strong>UUID v4</strong> - Randomly generated</li>
+            <li><strong>UUID v5</strong> - Generated from a namespace and name</li>
+            <li><strong>GUID</strong> - Microsoft Windows format (identical to a UUID but surrounded by braces)</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Features</h2>
+        <ul>
+            <li>Generation of different UUID types (v1, v4, v5, GUID)</li>
+            <li>Bulk generation of up to 1000 UUIDs</li>
+            <li>Creation of QR codes from UUIDs</li>
+            <li>Generation of hashes (MD5, SHA-1, SHA-256, SHA-512)</li>
+            <li>Option to add custom prefixes and suffixes</li>
+            <li>Free REST API for integration into your applications</li>
+            <li>Generation of code snippets for multiple languages</li>
+            <li>Light or dark mode interface</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>Common Uses of UUIDs</h2>
+        <ul>
+            <li>Database identifiers</li>
+            <li>Distributed object identifiers</li>
+            <li>Unique references in URLs</li>
+            <li>Authentication tokens</li>
+            <li>Session identifiers</li>
+            <li>Unique filenames</li>
+            <li>Instance identifiers in distributed systems</li>
+        </ul>
+    </div>
+</section>
+{% endblock %} 

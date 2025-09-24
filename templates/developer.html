@@ -1,0 +1,1377 @@
+{% extends "base.html" %}
+
+{% block title %}Developer Corner - UUID Implementation{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Learn how to generate and work with UUIDs in different programming languages with code examples and best practices">
+<meta name="keywords" content="UUID code examples, GUID implementation, UUID in Python, UUID in JavaScript, UUID in Java, programming with UUIDs">
+{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <div class="dev-sidebar">
+        <div class="sidebar-header">
+            <h3>Languages</h3>
+        </div>
+        <nav class="dev-nav">
+            <ul>
+                <li class="lang-item active" data-lang="python">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/python.svg') }}" alt="Python">
+                    <span>Python</span>
+                </li>
+                <li class="lang-item" data-lang="javascript">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/javascript.svg') }}" alt="JavaScript">
+                    <span>JavaScript</span>
+                </li>
+                <li class="lang-item" data-lang="java">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/java.svg') }}" alt="Java">
+                    <span>Java</span>
+                </li>
+                <li class="lang-item" data-lang="csharp">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/csharp.svg') }}" alt="C#">
+                    <span>C#</span>
+                </li>
+                <li class="lang-item" data-lang="php">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/php.svg') }}" alt="PHP">
+                    <span>PHP</span>
+                </li>
+                <li class="lang-item" data-lang="go">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/go.svg') }}" alt="Go">
+                    <span>Go</span>
+                </li>
+                <li class="lang-item" data-lang="ruby">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/ruby.svg') }}" alt="Ruby">
+                    <span>Ruby</span>
+                </li>
+                <li class="lang-item" data-lang="rust">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/rust.svg') }}" alt="Rust">
+                    <span>Rust</span>
+                </li>
+                <li class="lang-item" data-lang="swift">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/swift.svg') }}" alt="Swift">
+                    <span>Swift</span>
+                </li>
+                <li class="lang-item" data-lang="typescript">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/typescript.svg') }}" alt="TypeScript">
+                    <span>TypeScript</span>
+                </li>
+                <li class="lang-item" data-lang="sql">
+                    <img class="lang-icon" src="{{ url_for('static', filename='images/languages/sql.svg') }}" alt="SQL">
+                    <span>SQL</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="dev-content">
+        <h1>Developer's Guide to UUID Implementation</h1>
+        <p class="dev-intro">Choose a programming language from the sidebar to see how to implement UUID generation and handling in that specific language. Each guide includes standard library methods, popular third-party libraries, and best practices.</p>
+        
+        <!-- Python Content -->
+        <div class="lang-content active" id="python-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/python.svg') }}" alt="Python">
+                UUID in Python
+            </h2>
+            
+            <section>
+                <h3>Using the Standard Library</h3>
+                <p>Python has built-in support for UUID generation through the <code>uuid</code> module in the standard library:</p>
+                <pre><code class="language-python">import uuid
+
+# Generate a random UUID (version 4)
+random_uuid = uuid.uuid4()
+print(random_uuid)  # e.g., 550e8400-e29b-41d4-a716-446655440000
+
+# Generate a UUID based on the host ID and current time (version 1)
+time_based_uuid = uuid.uuid1()
+print(time_based_uuid)
+
+# Generate a name-based UUID using SHA-1 (version 5)
+namespace_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, "example.com")
+print(namespace_uuid)
+
+# Convert UUID to string
+uuid_str = str(random_uuid)
+print(uuid_str)
+
+# Create UUID from string
+from_str = uuid.UUID("550e8400-e29b-41d4-a716-446655440000")
+print(from_str)</code></pre>
+            </section>
+            
+            <section>
+                <h3>UUID Versions in Python</h3>
+                <p>The Python <code>uuid</code> module supports standard UUID versions. In recent Python versions, <code>uuid.uuid7()</code> is available for RFC 9562 UUID v7:</p>
+                <ul>
+                    <li><code>uuid1()</code>: Generate a UUID based on the host ID and current time</li>
+                    <li><code>uuid3(namespace, name)</code>: Generate a UUID based on the MD5 hash of a namespace ID and a name</li>
+                    <li><code>uuid4()</code>: Generate a random UUID</li>
+                    <li><code>uuid5(namespace, name)</code>: Generate a UUID based on the SHA-1 hash of a namespace ID and a name</li>
+                    <li><code>uuid7()</code> (Python 3.11+/3.12+): Time-ordered UUID using Unix timestamp and randomness</li>
+                </ul>
+                <p>For most applications, <code>uuid4()</code> is recommended unless you have specific requirements for using other versions.</p>
+            </section>
+            
+            <section>
+                <h3>Working with UUIDs in Databases</h3>
+                <p>When using UUIDs with databases in Python, you'll typically want to use an ORM like SQLAlchemy:</p>
+                <pre><code class="language-python">from sqlalchemy import Column, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+    
+    # For PostgreSQL, which has a native UUID type
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(String)
+    
+    # For databases without a native UUID type, use a string instead
+    # id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use <code>uuid4()</code> for most applications requiring random identifiers</li>
+                    <li>Consider storage implications when using UUIDs as primary keys in databases</li>
+                    <li>When string representation is required, you can use <code>str(uuid_obj)</code></li>
+                    <li>For web applications, UUIDs are often safer than sequential IDs to prevent enumeration attacks</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- JavaScript Content -->
+        <div class="lang-content" id="javascript-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/javascript.svg') }}" alt="JavaScript">
+                UUID in JavaScript
+            </h2>
+            
+            <section>
+                <h3>Using the Crypto API (Modern Browsers)</h3>
+                <p>Modern browsers provide the Crypto API which can be used to generate UUID v4, and some environments/libraries support UUID v7:</p>
+                <pre><code class="language-javascript">// Generate a UUID v4 using the crypto API
+function uuidv4() {
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}
+
+const myUUID = uuidv4();
+console.log(myUUID); // e.g., "c7f76f50-d7d2-4e4b-8870-3d7e84125216"</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUID Libraries</h3>
+                <p>For more complete UUID support, especially in Node.js or when browser compatibility is a concern, use the popular <code>uuid</code> package (v9+) which supports v7:</p>
+                <pre><code class="language-javascript">// In Node.js
+// First install: npm install uuid
+
+// CommonJS import
+const { v1, v4, v5, v7, validate, version } = require('uuid');
+
+// ES Module import
+// import { v1, v4, v5, v7, validate, version } from 'uuid';
+
+// Generate a random UUID (v4)
+const randomUUID = v4();
+console.log(randomUUID);
+
+// Generate a time-based UUID (v1)
+const timeBasedUUID = v1();
+console.log(timeBasedUUID);
+
+// Generate a name-based UUID (v5)
+const NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341'; // Some custom namespace
+const nameBasedUUID = v5('Hello, World!', NAMESPACE);
+console.log(nameBasedUUID);
+
+// Generate a time-ordered UUID (v7)
+const timeOrderedUUID = v7();
+console.log(timeOrderedUUID);
+
+// Validate a UUID
+const isValid = validate(randomUUID); // true
+console.log(isValid);
+
+// Check the version of a UUID
+const uuidVersion = version(randomUUID); // 4
+console.log(uuidVersion);</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUID in the Browser</h3>
+                <p>For browser usage, you can include the library via CDN:</p>
+                <pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/uuid@latest/dist/umd/uuid.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const { v4: uuidv4 } = uuid;
+  
+  // Generate a random UUID
+  const myUUID = uuidv4();
+  console.log(myUUID);
+&lt;/script&gt;</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use v4 (random) UUIDs for most client-side applications</li>
+                    <li>For secure applications, ensure you're using a cryptographically strong source of randomness</li>
+                    <li>Consider using the <code>uuid</code> library instead of custom implementations for better compatibility and maintenance</li>
+                    <li>In modern browsers, you can use the built-in Crypto API for better performance</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Java Content -->
+        <div class="lang-content" id="java-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/java.svg') }}" alt="Java">
+                UUID in Java
+            </h2>
+            
+            <section>
+                <h3>Using java.util.UUID</h3>
+                <p>Java includes UUID support in the standard library with the <code>java.util.UUID</code> class:</p>
+                <pre><code class="language-java">import java.util.UUID;
+
+public class UUIDExample {
+    public static void main(String[] args) {
+        // Generate a random UUID (version 4)
+        UUID randomUUID = UUID.randomUUID();
+        System.out.println("Random UUID: " + randomUUID);
+        
+        // Create a UUID from string
+        UUID fromString = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+        System.out.println("From string: " + fromString);
+        
+        // Get the most and least significant bits
+        long mostSigBits = randomUUID.getMostSignificantBits();
+        long leastSigBits = randomUUID.getLeastSignificantBits();
+        
+        // Create a UUID from bits
+        UUID fromBits = new UUID(mostSigBits, leastSigBits);
+        System.out.println("From bits: " + fromBits);
+        
+        // Get UUID version
+        int version = randomUUID.version();
+        System.out.println("Version: " + version);
+        
+        // Get UUID variant
+        int variant = randomUUID.variant();
+        System.out.println("Variant: " + variant);
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in JPA/Hibernate</h3>
+                <p>When using UUIDs as entity identifiers in JPA/Hibernate:</p>
+                <pre><code class="language-java">import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class User {
+    
+    @Id
+    private UUID id;
+    
+    private String name;
+    
+    public User() {
+        this.id = UUID.randomUUID();
+    }
+    
+    // Getters and setters
+    public UUID getId() {
+        return id;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>UUID Version 1 (Time-based) in Java</h3>
+                <p>Java's standard library doesn't directly support UUID v1 generation. For time-based UUIDs, you can use a library like <code>com.fasterxml.uuid:java-uuid-generator</code>:</p>
+                <pre><code class="language-java">// Add this dependency to your pom.xml
+// &lt;dependency&gt;
+//     &lt;groupId&gt;com.fasterxml.uuid&lt;/groupId&gt;
+//     &lt;artifactId&gt;java-uuid-generator&lt;/artifactId&gt;
+//     &lt;version&gt;4.0.1&lt;/version&gt;
+// &lt;/dependency&gt;
+
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedGenerator;
+import java.util.UUID;
+
+public class TimeBasedUUIDExample {
+    public static void main(String[] args) {
+        // Create a time-based generator
+        TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator();
+        
+        // Generate a time-based UUID (v1)
+        UUID timeBasedUUID = timeBasedGenerator.generate();
+        System.out.println("Time-based UUID: " + timeBasedUUID);
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use <code>UUID.randomUUID()</code> for most applications requiring random identifiers</li>
+                    <li>Consider the performance implications when using UUIDs as database primary keys</li>
+                    <li>For time-ordered UUIDs (useful in some database scenarios), consider using a specialized library</li>
+                    <li>Store UUIDs efficiently in databases by using native UUID types when available</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Add other language sections... -->
+        <!-- C# Content -->
+        <div class="lang-content" id="csharp-content">
+            <!-- C# UUID implementation -->
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/csharp.svg') }}" alt="C#">
+                UUID in C# (.NET)
+            </h2>
+            
+            <section>
+                <h3>Using System.Guid</h3>
+                <p>In .NET, UUIDs are implemented as the <code>System.Guid</code> struct:</p>
+                <pre><code class="language-csharp">using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Generate a new random GUID
+        Guid randomGuid = Guid.NewGuid();
+        Console.WriteLine($"Random GUID: {randomGuid}");
+        
+        // Parse a GUID from string
+        Guid parsedGuid = Guid.Parse("550e8400-e29b-41d4-a716-446655440000");
+        Console.WriteLine($"Parsed GUID: {parsedGuid}");
+        
+        // TryParse example (safer parsing)
+        bool success = Guid.TryParse("550e8400-e29b-41d4-a716-446655440000", out Guid result);
+        if (success)
+        {
+            Console.WriteLine($"Successfully parsed: {result}");
+        }
+        
+        // Convert to different string formats
+        Console.WriteLine($"As string: {randomGuid.ToString()}");
+        Console.WriteLine($"As 'N' format (no dashes): {randomGuid.ToString("N")}");
+        Console.WriteLine($"As 'B' format (with braces): {randomGuid.ToString("B")}");
+        Console.WriteLine($"As 'P' format (with parentheses): {randomGuid.ToString("P")}");
+        Console.WriteLine($"As 'X' format (with hex values): {randomGuid.ToString("X")}");
+        
+        // Compare GUIDs
+        bool areEqual = randomGuid.Equals(parsedGuid);
+        Console.WriteLine($"GUIDs are equal: {areEqual}");
+        
+        // Convert to byte array
+        byte[] bytes = randomGuid.ToByteArray();
+        
+        // Create from byte array
+        Guid fromBytes = new Guid(bytes);
+        Console.WriteLine($"From bytes: {fromBytes}");
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using GUIDs in Entity Framework</h3>
+                <p>Using GUIDs as primary keys in Entity Framework:</p>
+                <pre><code class="language-csharp">using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+
+public class User
+{
+    [Key]
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    
+    public User()
+    {
+        Id = Guid.NewGuid();
+    }
+}
+
+public class ApplicationDbContext : DbContext
+{
+    public DbSet<User> Users { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // You can also configure the property here
+        modelBuilder.Entity<User>()
+            .Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()"); // SQL Server syntax
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use <code>Guid.NewGuid()</code> for generating random UUIDs</li>
+                    <li>Be aware that .NET's <code>Guid</code> implementation primarily supports version 4 UUIDs</li>
+                    <li>For sequential GUIDs (better for database indexing), consider using specialized libraries like <code>NHibernate.Guid.Comb</code></li>
+                    <li>When storing GUIDs in SQL Server, consider using the <code>uniqueidentifier</code> data type</li>
+                    <li>Be mindful of the string format when displaying or storing GUIDs as strings</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- PHP Content -->
+        <div class="lang-content" id="php-content">
+            <!-- PHP content here -->
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/php.svg') }}" alt="PHP">
+                UUID in PHP
+            </h2>
+            
+            <section>
+                <h3>Using ramsey/uuid Library</h3>
+                <p>The most popular way to work with UUIDs in PHP is using the <code>ramsey/uuid</code> library:</p>
+                <pre><code class="language-php">&lt;?php
+// Install with Composer: composer require ramsey/uuid
+
+require 'vendor/autoload.php';
+
+use Ramsey\Uuid\Uuid;
+
+// Generate a version 4 (random) UUID
+$uuid4 = Uuid::uuid4();
+echo "UUID v4: " . $uuid4->toString() . "\n";
+
+// Generate a version 1 (time-based) UUID
+$uuid1 = Uuid::uuid1();
+echo "UUID v1: " . $uuid1->toString() . "\n";
+
+// Generate a version 3 (name-based, MD5) UUID
+$uuid3 = Uuid::uuid3(Uuid::NAMESPACE_DNS, 'example.com');
+echo "UUID v3: " . $uuid3->toString() . "\n";
+
+// Generate a version 5 (name-based, SHA-1) UUID
+$uuid5 = Uuid::uuid5(Uuid::NAMESPACE_DNS, 'example.com');
+echo "UUID v5: " . $uuid5->toString() . "\n";
+
+// Parse a UUID from string
+$parsed = Uuid::fromString('550e8400-e29b-41d4-a716-446655440000');
+echo "Parsed UUID: " . $parsed->toString() . "\n";
+
+// Check if a string is a valid UUID
+$isValid = Uuid::isValid('550e8400-e29b-41d4-a716-446655440000');
+echo "Is valid UUID: " . ($isValid ? 'Yes' : 'No') . "\n";
+
+// Get UUID version
+echo "UUID version: " . $uuid4->getVersion() . "\n";
+
+// Convert to bytes for database storage
+$bytes = $uuid4->getBytes();
+
+// Create from bytes
+$fromBytes = Uuid::fromBytes($bytes);
+echo "From bytes: " . $fromBytes->toString() . "\n";
+?&gt;</code></pre>
+            </section>
+            
+            <section>
+                <h3>UUID Functions in PHP 7+</h3>
+                <p>Since PHP 7.4, there's a random_bytes function that can be used to generate a version 4 UUID:</p>
+                <pre><code class="language-php">&lt;?php
+/**
+ * Generate a UUID v4
+ * @return string
+ */
+function generateUuidV4() {
+    // Generate 16 random bytes
+    $data = random_bytes(16);
+    
+    // Set version to 4
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+    // Set bits 6-7 to 10
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+    
+    // Output the 36 character UUID
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+}
+
+$uuid = generateUuidV4();
+echo "UUID v4: $uuid\n";
+?&gt;</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in Laravel</h3>
+                <p>Laravel provides built-in support for UUIDs in models:</p>
+                <pre><code class="language-php">&lt;?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
+class User extends Model
+{
+    use HasUuids;
+    
+    // By default, Laravel will assume 'id' is your primary UUID key
+    // If you need to use a different column name:
+    // protected $primaryKey = 'uuid';
+    
+    // If your UUID is not auto-incrementing:
+    public $incrementing = false;
+    
+    // If your UUID is stored as a string in the database:
+    protected $keyType = 'string';
+}
+?&gt;</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use the <code>ramsey/uuid</code> library for production applications</li>
+                    <li>Store UUIDs as binary in databases when possible for better performance</li>
+                    <li>When using UUIDs as primary keys, remember to set <code>$incrementing = false</code> and <code>$keyType = 'string'</code> in Laravel models</li>
+                    <li>When displaying UUIDs to users, consider using a more user-friendly format or shortened versions when appropriate</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Continue with other languages... -->
+        
+        <!-- Go Content -->
+        <div class="lang-content" id="go-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/go.svg') }}" alt="Go">
+                UUID in Go
+            </h2>
+            
+            <section>
+                <h3>Using the google/uuid Package</h3>
+                <p>The most popular way to work with UUIDs in Go is using the <code>google/uuid</code> package:</p>
+                <pre><code class="language-go">package main
+
+import (
+    "fmt"
+    
+    "github.com/google/uuid"
+)
+
+func main() {
+    // Generate a random UUID (v4)
+    id := uuid.New()
+    fmt.Printf("UUID v4: %s\n", id.String())
+    
+    // Parse a UUID from string
+    parsed, err := uuid.Parse("550e8400-e29b-41d4-a716-446655440000")
+    if err != nil {
+        fmt.Printf("Error parsing UUID: %v\n", err)
+        return
+    }
+    fmt.Printf("Parsed UUID: %s\n", parsed)
+    
+    // Generate a UUID from a namespace and name (v5)
+    // First, we'll use a predefined namespace UUID (DNS)
+    ns := uuid.NameSpaceDNS
+    
+    // Generate a v5 UUID based on the namespace and a name
+    v5UUID := uuid.NewSHA1(ns, []byte("example.com"))
+    fmt.Printf("UUID v5: %s\n", v5UUID)
+    
+    // Get the binary representation
+    bytes, err := parsed.MarshalBinary()
+    if err != nil {
+        fmt.Printf("Error marshaling UUID: %v\n", err)
+        return
+    }
+    
+    // Create UUID from binary
+    var fromBytes uuid.UUID
+    fromBytes.UnmarshalBinary(bytes)
+    fmt.Printf("From bytes: %s\n", fromBytes)
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Working with UUIDs in SQL Databases</h3>
+                <p>When using UUIDs with Go and SQL databases:</p>
+                <pre><code class="language-go">package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+    
+    _ "github.com/lib/pq" // PostgreSQL driver
+    "github.com/google/uuid"
+)
+
+type User struct {
+    ID   uuid.UUID
+    Name string
+}
+
+func main() {
+    // Connect to PostgreSQL database
+    db, err := sql.Open("postgres", "postgres://username:password@localhost/dbname?sslmode=disable")
+    if err != nil {
+        log.Fatalf("Failed to connect to database: %v", err)
+    }
+    defer db.Close()
+    
+    // Create a table with UUID primary key
+    _, err = db.Exec(`
+        CREATE TABLE IF NOT EXISTS users (
+            id UUID PRIMARY KEY,
+            name TEXT NOT NULL
+        )
+    `)
+    if err != nil {
+        log.Fatalf("Failed to create table: %v", err)
+    }
+    
+    // Insert a user with a UUID
+    userID := uuid.New()
+    _, err = db.Exec("INSERT INTO users (id, name) VALUES ($1, $2)", userID, "John Doe")
+    if err != nil {
+        log.Fatalf("Failed to insert user: %v", err)
+    }
+    
+    // Query the user by UUID
+    var user User
+    err = db.QueryRow("SELECT id, name FROM users WHERE id = $1", userID).Scan(&user.ID, &user.Name)
+    if err != nil {
+        log.Fatalf("Failed to query user: %v", err)
+    }
+    
+    fmt.Printf("Found user: %s, %s\n", user.ID, user.Name)
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use the <code>google/uuid</code> package for a well-tested, maintained implementation</li>
+                    <li>Store UUIDs in their binary form in databases when possible for efficiency</li>
+                    <li>For high-performance applications, consider using the <code>gofrs/uuid</code> package which offers some performance optimizations</li>
+                    <li>When working with PostgreSQL, use the native UUID type for better query performance</li>
+                    <li>In distributed systems, consider using version 1 (time-based) UUIDs for better indexing performance</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Ruby Content -->
+        <div class="lang-content" id="ruby-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/ruby.svg') }}" alt="Ruby">
+                UUID in Ruby
+            </h2>
+            
+            <section>
+                <h3>Using the SecureRandom Standard Library</h3>
+                <p>Ruby's standard library includes a simple way to generate UUIDs:</p>
+                <pre><code class="language-ruby">require 'securerandom'
+
+# Generate a random UUID (v4)
+uuid = SecureRandom.uuid
+puts "UUID v4: #{uuid}"</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using the uuid Gem</h3>
+                <p>For more comprehensive UUID features, you can use the <code>uuid</code> gem:</p>
+                <pre><code class="language-ruby"># Install with: gem install uuid
+require 'uuid'
+
+# Create a UUID generator
+generator = UUID.new
+
+# Generate a random UUID (v4)
+uuid4 = generator.generate
+puts "UUID v4: #{uuid4}"
+
+# Generate a time-based UUID (v1)
+uuid1 = generator.generate(:compact)
+puts "UUID v1 (compact): #{uuid1}"
+
+# Generate a UUID with timestamp
+uuid_with_time = generator.generate(:time)
+puts "UUID with time: #{uuid_with_time}"
+
+# Parse a UUID
+parsed = UUID.parse("550e8400-e29b-41d4-a716-446655440000")
+puts "Parsed UUID: #{parsed}"</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in Ruby on Rails</h3>
+                <p>In Ruby on Rails applications, you can use UUIDs as primary keys for your models:</p>
+                <pre><code class="language-ruby"># In your migration
+class CreateUsers < ActiveRecord::Migration[6.1]
+  def change
+    enable_extension 'pgcrypto' unless extension_enabled?('pgcrypto')
+    
+    create_table :users, id: :uuid do |t|
+      t.string :name
+      t.timestamps
+    end
+  end
+end
+
+# In your model
+class User < ApplicationRecord
+  # No additional setup needed if using Rails 6+ and PostgreSQL
+  # UUID is automatically generated for new records
+end
+
+# In your application.rb (to set UUIDs as default for all models)
+config.generators do |g|
+  g.orm :active_record, primary_key_type: :uuid
+end</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>For simple UUID generation, Ruby's built-in <code>SecureRandom.uuid</code> is sufficient</li>
+                    <li>When using Rails with PostgreSQL, enable the <code>pgcrypto</code> extension for efficient UUID handling</li>
+                    <li>Consider using UUIDs as primary keys for public-facing resources to avoid enumeration attacks</li>
+                    <li>In distributed systems, UUIDs help avoid ID conflicts when merging data from multiple sources</li>
+                    <li>Store UUIDs in their native type in PostgreSQL for better performance and indexing</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Rust Content -->
+        <div class="lang-content" id="rust-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/rust.svg') }}" alt="Rust">
+                UUID in Rust
+            </h2>
+            
+            <section>
+                <h3>Using the uuid Crate</h3>
+                <p>In Rust, UUIDs are typically handled using the <code>uuid</code> crate:</p>
+                <pre><code class="language-rust">// In Cargo.toml:
+// [dependencies]
+// uuid = { version = "1.3", features = ["v4", "v5", "fast-rng", "macro", "serde"] }
+
+use uuid::{Uuid, uuid};
+
+fn main() {
+    // Generate a random UUID (v4)
+    let uuid4 = Uuid::new_v4();
+    println!("UUID v4: {}", uuid4);
+    
+    // Generate a UUID from a namespace and name (v5)
+    let namespace = Uuid::NAMESPACE_DNS;
+    let name = "example.com".as_bytes();
+    let uuid5 = Uuid::new_v5(&namespace, name);
+    println!("UUID v5: {}", uuid5);
+    
+    // Parse a UUID from a string
+    let parsed = Uuid::parse_str("550e8400-e29b-41d4-a716-446655440000").expect("Invalid UUID string");
+    println!("Parsed UUID: {}", parsed);
+    
+    // Create a UUID using the uuid! macro
+    let predefined = uuid!("550e8400-e29b-41d4-a716-446655440000");
+    println!("Predefined UUID: {}", predefined);
+    
+    // Check if two UUIDs are equal
+    println!("UUIDs are equal: {}", parsed == predefined);
+    
+    // Nil UUID (all zeros)
+    let nil = Uuid::nil();
+    println!("Nil UUID: {}", nil);
+    
+    // Convert to different formats
+    println!("Hyphenated: {}", uuid4.hyphenated());
+    println!("Simple: {}", uuid4.simple());
+    println!("Urn: {}", uuid4.urn());
+    
+    // Get the bytes
+    let bytes = uuid4.as_bytes();
+    println!("Bytes: {:?}", bytes);
+    
+    // Create from bytes
+    let from_bytes = Uuid::from_bytes(*bytes);
+    println!("From bytes: {}", from_bytes);
+}
+</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs with Databases</h3>
+                <p>When working with UUIDs in Rust and databases, you'll often use an ORM like Diesel:</p>
+                <pre><code class="language-rust">// In Cargo.toml:
+// [dependencies]
+// diesel = { version = "2.0", features = ["postgres", "uuid"] }
+// uuid = { version = "1.3", features = ["v4", "serde"] }
+
+use diesel::prelude::*;
+use uuid::Uuid;
+
+// Schema definition
+table! {
+    users (id) {
+        id -> Uuid,
+        name -> Text,
+    }
+}
+
+// Model definition
+#[derive(Queryable, Insertable)]
+#[diesel(table_name = users)]
+struct User {
+    id: Uuid,
+    name: String,
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use self::users::dsl::*;
+    
+    // Connect to database
+    let database_url = "postgres://username:password@localhost/diesel_demo";
+    let mut conn = PgConnection::establish(&database_url)?;
+    
+    // Create a new user with a UUID
+    let new_user = User {
+        id: Uuid::new_v4(),
+        name: "John Doe".to_string(),
+    };
+    
+    // Insert the user
+    diesel::insert_into(users)
+        .values(&new_user)
+        .execute(&mut conn)?;
+    
+    // Query for the user
+    let found_user = users
+        .find(new_user.id)
+        .first::<User>(&mut conn)?;
+    
+    println!("Found user: {} with ID: {}", found_user.name, found_user.id);
+    
+    Ok(())
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use the <code>uuid</code> crate with appropriate feature flags (e.g., <code>v4</code>, <code>fast-rng</code>)</li>
+                    <li>Enable the <code>serde</code> feature when serializing/deserializing UUIDs</li>
+                    <li>For high performance applications, consider binary UUID representation</li>
+                    <li>When using the <code>diesel</code> ORM, enable its UUID feature for proper database type handling</li>
+                    <li>Watch for allocation overhead with UUIDs - in performance-critical code, reuse UUID instances when possible</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- Swift Content -->
+        <div class="lang-content" id="swift-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/swift.svg') }}" alt="Swift">
+                UUID in Swift
+            </h2>
+            
+            <section>
+                <h3>Using Foundation's UUID</h3>
+                <p>Swift's Foundation framework includes built-in support for UUIDs:</p>
+                <pre><code class="language-swift">import Foundation
+
+// Generate a random UUID (v4)
+let uuid = UUID()
+print("UUID: \(uuid)")
+
+// Convert UUID to string
+let uuidString = uuid.uuidString
+print("UUID as string: \(uuidString)")
+
+// Create a UUID from a string
+if let fromString = UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000") {
+    print("Created from string: \(fromString)")
+} else {
+    print("Invalid UUID string")
+}
+
+// Compare UUIDs
+let anotherUUID = UUID()
+print("UUIDs are equal: \(uuid == anotherUUID)")
+
+// Get UUID bytes
+var bytes = uuid.uuid
+print("First byte: \(bytes.0)")</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in CoreData</h3>
+                <p>When working with CoreData, you can use UUIDs as identifiers for your entities:</p>
+                <pre><code class="language-swift">import Foundation
+import CoreData
+
+// Define a CoreData entity with UUID
+class User: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var name: String
+    
+    // Add convenience initializer
+    convenience init(context: NSManagedObjectContext, name: String) {
+        self.init(context: context)
+        self.id = UUID()
+        self.name = name
+    }
+}
+
+// Usage example
+func createUser(name: String, context: NSManagedObjectContext) {
+    let user = User(context: context, name: name)
+    
+    do {
+        try context.save()
+        print("User created with UUID: \(user.id)")
+    } catch {
+        print("Failed to save: \(error)")
+    }
+}
+
+// Find user by UUID
+func findUser(id: UUID, context: NSManagedObjectContext) -> User? {
+    let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+    
+    do {
+        let results = try context.fetch(fetchRequest)
+        return results.first
+    } catch {
+        print("Failed to fetch: \(error)")
+        return nil
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in SwiftUI</h3>
+                <p>UUIDs are often used with SwiftUI's <code>Identifiable</code> protocol:</p>
+                <pre><code class="language-swift">import SwiftUI
+
+// Define a model conforming to Identifiable
+struct Task: Identifiable {
+    let id: UUID = UUID()
+    var title: String
+    var isCompleted: Bool = false
+}
+
+// Use in a SwiftUI view
+struct TaskListView: View {
+    @State private var tasks: [Task] = [
+        Task(title: "Learn SwiftUI"),
+        Task(title: "Build an app"),
+        Task(title: "Publish to App Store")
+    ]
+    
+    var body: some View {
+        List {
+            ForEach(tasks) { task in
+                Text(task.title)
+            }
+            .onDelete(perform: deleteTasks)
+        }
+    }
+    
+    func deleteTasks(at offsets: IndexSet) {
+        tasks.remove(atOffsets: offsets)
+    }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use Foundation's <code>UUID()</code> for generating UUIDs, which creates version 4 (random) UUIDs</li>
+                    <li>Conform to <code>Identifiable</code> protocol when using UUIDs as identifiers in SwiftUI</li>
+                    <li>When storing UUIDs in databases, consider using string representation for compatibility</li>
+                    <li>For model objects that need persistence, generate UUIDs at initialization time</li>
+                    <li>Remember that UUIDs are objects in Swift, so they're allocated on the heap - use them appropriately in performance-critical code</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- TypeScript Content -->
+        <div class="lang-content" id="typescript-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/typescript.svg') }}" alt="TypeScript">
+                UUID in TypeScript
+            </h2>
+            
+            <section>
+                <h3>Using the uuid Package</h3>
+                <p>The most common way to work with UUIDs in TypeScript is using the <code>uuid</code> package:</p>
+                <pre><code class="language-typescript">// Install with: npm install uuid
+// Then: npm install @types/uuid
+
+import { v1, v4, v5, validate, version, parse, stringify } from 'uuid';
+
+// Generate a random UUID (v4)
+const randomUuid: string = v4();
+console.log(`Random UUID: ${randomUuid}`);
+
+// Generate a time-based UUID (v1)
+const timeBasedUuid: string = v1();
+console.log(`Time-based UUID: ${timeBasedUuid}`);
+
+// Generate a name-based UUID (v5)
+const NAMESPACE = '1b671a64-40d5-491e-99b0-da01ff1f3341';
+const nameBasedUuid: string = v5('Hello, World!', NAMESPACE);
+console.log(`Name-based UUID: ${nameBasedUuid}`);
+
+// Type checking with interfaces
+interface Entity {
+  id: string; // UUID string
+  name: string;
+}
+
+// Create an entity with a UUID
+const entity: Entity = {
+  id: v4(),
+  name: 'Example Entity'
+};
+
+// Validate a UUID
+const isValid: boolean = validate(entity.id);
+console.log(`Is valid UUID: ${isValid}`);
+
+// Get the UUID version
+const uuidVersion: number = version(entity.id);
+console.log(`UUID version: ${uuidVersion}`);
+
+// Parse a UUID to get its components
+const parsed = parse(entity.id);
+console.log('Parsed UUID components:', parsed);
+
+// Convert binary UUID back to string
+const stringified = stringify(parsed);
+console.log(`Stringified UUID: ${stringified}`);</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in TypeORM</h3>
+                <p>When working with TypeScript and databases, TypeORM provides native support for UUIDs:</p>
+                <pre><code class="language-typescript">// Install: npm install typeorm reflect-metadata pg uuid @types/uuid
+
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { v4 } from 'uuid';
+
+@Entity('users')
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  
+  @Column()
+  name: string;
+  
+  // Constructor with default UUID generation
+  constructor(name: string) {
+    super();
+    this.id = v4();
+    this.name = name;
+  }
+}
+
+// Usage example
+async function createUser(name: string): Promise<User> {
+  const user = new User(name);
+  await user.save();
+  return user;
+}
+
+// Find by UUID
+async function findUserById(id: string): Promise<User | undefined> {
+  return await User.findOne({ where: { id } });
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Using UUIDs in Angular</h3>
+                <p>UUIDs are commonly used in Angular applications for unique identifiers:</p>
+                <pre><code class="language-typescript">// app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+
+// task.model.ts
+import { v4 as uuidv4 } from 'uuid';
+
+export class Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  
+  constructor(title: string) {
+    this.id = uuidv4();
+    this.title = title;
+    this.completed = false;
+  }
+}
+
+// app.component.ts
+import { Component } from '@angular/core';
+import { Task } from './task.model';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>Task List</h1>
+    <ul>
+      <li *ngFor="let task of tasks" [class.completed]="task.completed">
+        <input type="checkbox" [(ngModel)]="task.completed">
+        {{ task.title }}
+        <button (click)="removeTask(task.id)">Remove</button>
+      </li>
+    </ul>
+    <input #newTask placeholder="Add a task">
+    <button (click)="addTask(newTask.value); newTask.value=''">Add</button>
+  `,
+  styles: ['.completed { text-decoration: line-through; }']
+})
+export class AppComponent {
+  tasks: Task[] = [];
+  
+  addTask(title: string): void {
+    if (title.trim()) {
+      this.tasks.push(new Task(title));
+    }
+  }
+  
+  removeTask(id: string): void {
+    this.tasks = this.tasks.filter(task => task.id !== id);
+  }
+}</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Always install the <code>@types/uuid</code> package to get proper TypeScript typings</li>
+                    <li>Consider using UUIDs as primary keys for entities in distributed systems</li>
+                    <li>In TypeScript interfaces, type UUID fields as <code>string</code> for simplicity</li>
+                    <li>For frontend applications, use v4 UUIDs to avoid information leakage that can happen with v1</li>
+                    <li>When generating UUIDs client-side, validate their format server-side before trusting them</li>
+                </ul>
+            </section>
+        </div>
+        
+        <!-- SQL Content -->
+        <div class="lang-content" id="sql-content">
+            <h2>
+                <img class="lang-icon" src="{{ url_for('static', filename='images/languages/sql.svg') }}" alt="SQL">
+                UUID in SQL Databases
+            </h2>
+            
+            <section>
+                <h3>PostgreSQL UUID Support</h3>
+                <p>PostgreSQL has native UUID support and provides functions for working with UUIDs:</p>
+                <pre><code class="language-sql">-- Enable the UUID extension (if not already enabled)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Create a table with UUID primary key
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    username VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert a record with auto-generated UUID
+INSERT INTO users (username) VALUES ('johndoe');
+
+-- Insert with a specific UUID
+INSERT INTO users (id, username) 
+VALUES (uuid_generate_v4(), 'janedoe');
+
+-- Query by UUID
+SELECT * FROM users 
+WHERE id = '550e8400-e29b-41d4-a716-446655440000';
+
+-- Generate different UUID versions
+SELECT uuid_generate_v1();  -- v1 (time-based)
+SELECT uuid_generate_v4();  -- v4 (random)
+
+-- Check if string is a valid UUID
+SELECT 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'::uuid;  -- works if valid
+SELECT 'not-a-uuid'::uuid;  -- throws error
+
+-- Create a UUID from parts
+SELECT uuid_in(overlay(overlay(overlay(overlay(
+    'ffffffff-ffff-ffff-ffff-ffffffffffff' placing '00000000' from 1 for 8) 
+    placing '0000' from 10 for 4) 
+    placing '4000' from 15 for 4) 
+    placing '0000' from 20 for 4));</code></pre>
+            </section>
+            
+            <section>
+                <h3>MySQL UUID Support</h3>
+                <p>MySQL/MariaDB provides functions for working with UUIDs:</p>
+                <pre><code class="language-sql">-- Create a table with UUID primary key (as CHAR)
+CREATE TABLE users (
+    id CHAR(36) PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- In MySQL 8.0+, you can use UUID_TO_BIN to store UUIDs more efficiently
+CREATE TABLE users_optimized (
+    id BINARY(16) PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert with UUID function (MySQL 8.0+)
+INSERT INTO users (id, username) 
+VALUES (UUID(), 'johndoe');
+
+-- Insert with optimized binary storage (MySQL 8.0+)
+INSERT INTO users_optimized (id, username) 
+VALUES (UUID_TO_BIN(UUID()), 'johndoe');
+
+-- Query using UUID string (inefficient)
+SELECT * FROM users 
+WHERE id = '550e8400-e29b-41d4-a716-446655440000';
+
+-- Query using binary UUID (efficient)
+SELECT * FROM users_optimized 
+WHERE id = UUID_TO_BIN('550e8400-e29b-41d4-a716-446655440000');
+
+-- Convert binary UUID back to string
+SELECT BIN_TO_UUID(id) as user_id, username 
+FROM users_optimized;</code></pre>
+            </section>
+            
+            <section>
+                <h3>SQL Server UUID/UNIQUEIDENTIFIER</h3>
+                <p>SQL Server uses the UNIQUEIDENTIFIER type for UUIDs:</p>
+                <pre><code class="language-sql">-- Create a table with UNIQUEIDENTIFIER primary key
+CREATE TABLE users (
+    id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    username NVARCHAR(50) NOT NULL UNIQUE,
+    created_at DATETIME2 DEFAULT GETDATE()
+);
+
+-- Insert with auto-generated UNIQUEIDENTIFIER
+INSERT INTO users (username) VALUES ('johndoe');
+
+-- Insert with specific UNIQUEIDENTIFIER
+INSERT INTO users (id, username) 
+VALUES (NEWID(), 'janedoe');
+
+-- Time-ordered UNIQUEIDENTIFIER (better for indexing)
+INSERT INTO users (id, username) 
+VALUES (NEWSEQUENTIALID(), 'sequential_user');
+
+-- Query by UNIQUEIDENTIFIER
+SELECT * FROM users 
+WHERE id = '550E8400-E29B-41D4-A716-446655440000';
+
+-- Convert string to UNIQUEIDENTIFIER
+SELECT CAST('550E8400-E29B-41D4-A716-446655440000' AS UNIQUEIDENTIFIER);
+
+-- Convert UNIQUEIDENTIFIER to string
+SELECT CAST(id AS NVARCHAR(36)) FROM users;</code></pre>
+            </section>
+            
+            <section>
+                <h3>SQLite UUID Support</h3>
+                <p>SQLite doesn't have a native UUID type, but you can use TEXT or BLOB:</p>
+                <pre><code class="language-sql">-- Create a table with UUID primary key as TEXT
+CREATE TABLE users (
+    id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- UUID generation usually handled by application layer
+-- For example, in Python:
+-- import uuid
+-- cursor.execute("INSERT INTO users (id, username) VALUES (?, ?)", 
+--                (str(uuid.uuid4()), "johndoe"))
+
+-- If using a client tool, you'd typically insert a UUID string:
+INSERT INTO users (id, username) 
+VALUES ('550e8400-e29b-41d4-a716-446655440000', 'johndoe');
+
+-- Query by UUID
+SELECT * FROM users 
+WHERE id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
+            </section>
+            
+            <section>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Use native UUID types when available (PostgreSQL, SQL Server) for better integration</li>
+                    <li>In MySQL 8.0+, store UUIDs as binary with <code>UUID_TO_BIN</code>/<code>BIN_TO_UUID</code> for better performance</li>
+                    <li>Consider indexing implications: UUIDs can fragment indexes more than sequential IDs</li>
+                    <li>For SQL Server, <code>NEWSEQUENTIALID()</code> can improve index performance</li>
+                    <li>With PostgreSQL, the <code>uuid-ossp</code> extension provides multiple UUID generation algorithms</li>
+                    <li>For SQLite, handle UUID generation in your application code</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const langItems = document.querySelectorAll('.lang-item');
+    const langContents = document.querySelectorAll('.lang-content');
+    
+    langItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            
+            // Update active state in sidebar
+            langItems.forEach(li => li.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update visible content
+            langContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === lang + '-content') {
+                    content.classList.add('active');
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %} 

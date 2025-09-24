@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Bulk UUID Generation</h1>
+    <p>Generate up to 1000 UUIDs with a single click</p>
+</section>
+
+<section class="bulk-generator">
+    <div class="card">
+        <h2>Generate UUIDs in Bulk</h2>
+        
+        <form id="bulk-form">
+            <div class="form-group">
+                <label for="bulk-type">
+                    UUID Type:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            <strong>UUID v1:</strong> Time-based UUIDs generated in sequence.<br>
+                            <strong>UUID v4:</strong> Random UUIDs, each independently generated.<br>
+                            <strong>UUID v5:</strong> Name-based (namespace + name, deterministic).<br>
+                            <strong>UUID v7:</strong> Time-ordered (Unix ms timestamp + randomness).
+                        </span>
+                    </div>
+                </label>
+                <select id="bulk-type" name="type">
+                    <option value="v4">UUID v4 (random)</option>
+                    <option value="v1">UUID v1 (time-based)</option>
+                    <option value="v7">UUID v7 (time-ordered)</option>
+                    <option value="v5">UUID v5 (name-based)</option>
+                </select>
+            </div>
+            
+            <div class="form-group v5-options" id="bulk-v5-options" style="display: none;">
+                <label for="bulk-namespace">Namespace:</label>
+                <input type="text" id="bulk-namespace" name="namespace" placeholder="e.g.: DNS, URL or a UUID">
+                
+                <label for="bulk-name">Name:</label>
+                <input type="text" id="bulk-name" name="name" placeholder="e.g.: example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="count">
+                    Number of UUIDs:
+                    <div class="tooltip-container">
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">
+                            Choose how many UUIDs to generate at once. Maximum is 1000 per request.
+                        </span>
+                    </div>
+                </label>
+                <input type="number" id="count" name="count" min="1" max="1000" value="10">
+            </div>
+            
+            <button type="submit" class="btn primary">Generate Bulk UUIDs</button>
+        </form>
+        
+        <div id="bulk-result" class="result">
+            <h3>Generated UUIDs:</h3>
+            <div class="action-buttons">
+                <button id="copy-all" class="btn-small">Copy All</button>
+                <button id="download-txt" class="btn-small">Download .txt</button>
+                <button id="download-csv" class="btn-small">Download .csv</button>
+                <button id="download-json" class="btn-small">Download .json</button>
+            </div>
+            
+            <div class="format-options">
+                <label>Display Format:</label>
+                <select id="display-format">
+                    <option value="list">Simple List</option>
+                    <option value="numbered">Numbered List</option>
+                    <option value="quoted">With Quotes</option>
+                    <option value="array">Array Format</option>
+                </select>
+            </div>
+            
+            <textarea id="bulk-uuids" readonly rows="15"></textarea>
+        </div>
+    </div>
+</section>
+
+<section class="bulk-use-cases">
+    <h2>Bulk UUID Generation: Enterprise Solutions</h2>
+    <div class="use-cases-grid">
+        <div class="use-case-card">
+            <h3>Database Seeding</h3>
+            <p>Efficiently populate test databases with unique primary keys for performance testing, load simulation, and application development. Our bulk generator creates up to 1,000 UUIDs in milliseconds, making it ideal for database initialization.</p>
+        </div>
+        <div class="use-case-card">
+            <h3>Product Identification</h3>
+            <p>Generate batches of UUIDs for product codes, serial numbers, or SKUs in manufacturing or inventory management systems. Each identifier is guaranteed globally unique, eliminating duplication risks in your supply chain.</p>
+        </div>
+        <div class="use-case-card">
+            <h3>Secure Token Generation</h3>
+            <p>Create batches of unpredictable tokens for security applications such as one-time authentication codes, session identifiers, or API keys. Our v4 UUIDs provide cryptographically strong randomness suitable for security contexts.</p>
+        </div>
+        <div class="use-case-card">
+            <h3>Data Migration</h3>
+            <p>Facilitate smooth data migration between systems by pre-generating UUIDs for all records that need to be transferred, ensuring referential integrity throughout the migration process.</p>
+        </div>
+    </div>
+</section>
+
+<section class="bulk-uuid-formats">
+    <h2>Export Options for Enterprise Integration</h2>
+    <div class="format-details">
+        <div class="format-info">
+            <h3>Multiple Export Formats</h3>
+            <p>Our bulk generator provides flexible export options to integrate seamlessly with your existing workflows and tools:</p>
+            <ul class="format-list">
+                <li><strong>Plain Text (.txt)</strong> – Simple line-by-line UUIDs for maximum compatibility with any system</li>
+                <li><strong>CSV Format (.csv)</strong> – Ready for import into spreadsheets, databases, and data analysis tools</li>
+                <li><strong>JSON Array (.json)</strong> – Structured data format for direct integration with web applications and APIs</li>
+                <li><strong>Copy to Clipboard</strong> – Instantly available for pasting into your development environment</li>
+            </ul>
+        </div>
+        <div class="format-info">
+            <h3>Display Format Options</h3>
+            <p>Customize how your UUIDs appear in the generator with our display options:</p>
+            <ul class="format-list">
+                <li><strong>Simple List</strong> – Clean, one-per-line format for straightforward use</li>
+                <li><strong>Numbered List</strong> – Sequential numbering for easy reference and counting</li>
+                <li><strong>Quoted Format</strong> – Each UUID wrapped in quotes, ready for string literals in code</li>
+                <li><strong>Array Format</strong> – Complete array notation for direct copy-paste into code</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="performance-comparison">
+    <h2>Bulk Generation Performance</h2>
+    <div class="performance-container">
+        <div class="performance-text">
+            <h3>High-Performance UUID Generation</h3>
+            <p>Our optimized UUID generator delivers exceptional performance for both small and large-scale operations:</p>
+            <ul>
+                <li>Generate 10 UUIDs in less than 10ms</li>
+                <li>Generate 100 UUIDs in less than 50ms</li>
+                <li>Generate 1,000 UUIDs in less than 200ms</li>
+            </ul>
+            <p>All UUIDs are generated server-side using cryptographically secure algorithms, ensuring both performance and quality for your production applications.</p>
+        </div>
+        <div class="performance-chart">
+            <h3>UUID Version Comparison</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>UUID v1 (Time-based)</th>
+                        <th>UUID v4 (Random)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Generation Speed</td>
+                        <td>Fastest</td>
+                        <td>Very Fast</td>
+                    </tr>
+                    <tr>
+                        <td>Predictability</td>
+                        <td>Sequential</td>
+                        <td>Unpredictable</td>
+                    </tr>
+                    <tr>
+                        <td>Contains Timestamp</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Security Level</td>
+                        <td>Moderate</td>
+                        <td>High</td>
+                    </tr>
+                    <tr>
+                        <td>Recommended For</td>
+                        <td>High-volume logging, Timestamped records</td>
+                        <td>General purpose, Security applications</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Bulk Generator Enhanced Styles */
+    .bulk-use-cases {
+        margin: 3rem 0;
+    }
+    
+    .use-cases-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .use-case-card {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .use-case-card h3 {
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+    }
+    
+    .use-case-card p {
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .bulk-uuid-formats {
+        margin: 3rem 0;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .format-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+    
+    .format-list {
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+    }
+    
+    .format-list li {
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+    
+    .performance-comparison {
+        margin: 3rem 0;
+    }
+    
+    .performance-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .performance-text {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .performance-text ul {
+        padding-left: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .performance-chart {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    
+    .comparison-table th, .comparison-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .comparison-table th {
+        border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .comparison-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+        .format-details, .performance-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const bulkForm = document.getElementById('bulk-form');
+    const bulkResult = document.getElementById('bulk-result');
+    const bulkUuids = document.getElementById('bulk-uuids');
+    const copyAllBtn = document.getElementById('copy-all');
+    const displayFormat = document.getElementById('display-format');
+    
+    let generatedUuids = [];
+    
+    // Toggle v5 options
+    const bulkType = document.getElementById('bulk-type');
+    const v5Options = document.getElementById('bulk-v5-options');
+    bulkType.addEventListener('change', function() {
+        if (this.value === 'v5') {
+            v5Options.style.display = 'block';
+        } else {
+            v5Options.style.display = 'none';
+        }
+    });
+    
+    // Form submission
+    bulkForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(bulkForm);
+        
+        fetch('/generate-bulk', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            generatedUuids = data.uuids;
+            updateDisplay();
+            bulkResult.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while generating UUIDs.');
+        });
+    });
+    
+    // Update display based on the selected format
+    function updateDisplay() {
+        const format = displayFormat.value;
+        let output = '';
+        
+        switch(format) {
+            case 'list':
+                output = generatedUuids.join('\n');
+                break;
+            case 'numbered':
+                output = generatedUuids.map((uuid, index) => `${index + 1}. ${uuid}`).join('\n');
+                break;
+            case 'quoted':
+                output = generatedUuids.map(uuid => `"${uuid}"`).join('\n');
+                break;
+            case 'array':
+                output = '[\n  ' + generatedUuids.map(uuid => `"${uuid}"`).join(',\n  ') + '\n]';
+                break;
+        }
+        
+        bulkUuids.value = output;
+    }
+    
+    // Change display format
+    displayFormat.addEventListener('change', updateDisplay);
+    
+    // Copy all UUIDs
+    copyAllBtn.addEventListener('click', function() {
+        bulkUuids.select();
+        document.execCommand('copy');
+        showToast('UUIDs copied to clipboard');
+    });
+    
+    // Download as TXT
+    document.getElementById('download-txt').addEventListener('click', function() {
+        downloadFile('uuids.txt', generatedUuids.join('\n'), 'text/plain');
+    });
+    
+    // Download as CSV
+    document.getElementById('download-csv').addEventListener('click', function() {
+        downloadFile('uuids.csv', generatedUuids.join('\n'), 'text/csv');
+    });
+    
+    // Download as JSON
+    document.getElementById('download-json').addEventListener('click', function() {
+        downloadFile('uuids.json', JSON.stringify(generatedUuids, null, 2), 'application/json');
+    });
+    
+    // Function to download a file
+    function downloadFile(filename, content, contentType) {
+        const blob = new Blob([content], { type: contentType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    // Toast notification
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.classList.add('toast');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(function() {
+            toast.classList.add('show');
+        }, 100);
+        
+        setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+});
+</script>
+{% endblock %} 

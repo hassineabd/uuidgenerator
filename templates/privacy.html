@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="content-section">
+    <h1 id="privacy-policy">Privacy Policy</h1>
+    <p>Last updated: {{ now.strftime('%B %d, %Y') }}</p>
+    
+    <div class="policy-index">
+        <h2>Contents</h2>
+        <ol>
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#information">What we collect</a></li>
+            <li><a href="#usage">How we use it</a></li>
+            <li><a href="#retention">Retention</a></li>
+            <li><a href="#providers">Third-parties</a></li>
+            <li><a href="#advertising">Ads</a></li>
+            <li><a href="#rights">Your rights</a></li>
+            <li><a href="#changes">Changes</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ol>
+    </div>
+    
+    <div class="privacy-container">
+        <h2 id="intro">1. Intro</h2>
+        <p>We respect your privacy. This page explains what we collect and how we use it when you use <a href="https://easyuuidgenerator.com">easyuuidgenerator.com</a>.</p>
+        
+        <h2 id="information">2. Information We Collect</h2>
+        <p>When you use our <a href="/">UUID Generator</a>, we may collect:</p>
+        <ul>
+            <li><strong>Usage data:</strong> IP address, browser, pages visited, time on page, device info.</li>
+            <li><strong>API usage:</strong> Request counts and rate-limit info for the <a href="{{ url_for('api_docs') }}">API</a>.</li>
+            <li><strong>Cookies:</strong> Used to remember preferences (e.g., dark mode) and for analytics/ads. See the <a href="{{ url_for('cookies') }}">Cookie Policy</a>.</li>
+        </ul>
+        
+        <h2 id="usage">3. How We Use Your Information</h2>
+        <p>We use this data to:</p>
+        <ul>
+            <li>Run and improve the <a href="/">UUID tools</a> (including <a href="{{ url_for('bulk') }}">bulk</a> and <a href="{{ url_for('decoder') }}">decoder</a>).</li>
+            <li>Monitor usage and keep the service reliable.</li>
+            <li>Fix bugs and prevent abuse.</li>
+            <li>Understand site performance and UX.</li>
+            <li>Show ads via Monetag where enabled.</li>
+        </ul>
+        
+        <h2 id="retention">4. Data Retention</h2>
+        <p>We keep usage logs for up to 30 days. We don’t keep more than needed.</p>
+        
+        <h2 id="providers">5. Third-Party Service Providers</h2>
+        <p>We use trusted providers to help run the site, like:</p>
+        <ul>
+            <li><strong>Analytics:</strong> To understand website usage.</li>
+            <li><strong>Advertising:</strong> Monetag, to show relevant ads.</li>
+        </ul>
+        <p>We expect partners to follow strong privacy practices.</p>
+        
+        <h2 id="advertising">6. Advertising</h2>
+        <p>We use Monetag for ads. See Monetag’s <a href="https://monetag.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a> for details.</p>
+        
+        <h2 id="rights">7. Your Data Protection Rights</h2>
+        <p>Depending on your location, you may have rights to:</p>
+        <ul>
+            <li>The right to access information we hold about you</li>
+            <li>The right to rectification of inaccurate information</li>
+            <li>The right to erasure of your personal data</li>
+            <li>The right to restrict or object to processing</li>
+            <li>The right to data portability</li>
+        </ul>
+        <p>Local laws vary (e.g., GDPR). We’ll do our best to help with requests.</p>
+        
+        <h2 id="changes">8. Changes</h2>
+        <p>We may update this page. The date above will tell you when.</p>
+        
+        <h2 id="contact">9. Contact</h2>
+        <p>Questions? Reach us at:</p>
+        <p><a href="mailto:contact@easyuuidgenerator.com">contact@easyuuidgenerator.com</a></p>
+
+        <div class="related-info">
+            <h3>Related Information</h3>
+            <ul>
+                <li><a href="{{ url_for('terms') }}">Terms & Conditions</a> - Our service terms</li>
+                <li><a href="{{ url_for('cookies') }}">Cookie Policy</a> - How we use cookies on our site</li>
+                <li><a href="https://gdpr.eu/what-is-gdpr/" target="_blank" rel="noopener noreferrer">GDPR</a></li>
+                <li><a href="https://www.cookielaw.org/the-cookie-law/" target="_blank" rel="noopener noreferrer">Cookie Law</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %} 
